@@ -385,7 +385,7 @@ bool loadMedia() {
   bool success = true;
 
   // Open the font
-  gFont = TTF_OpenFont("../resources/font.ttf", 18);
+  gFont = TTF_OpenFont("../resources/FiraSans-Bold.ttf", 32);
   if (gFont == NULL) {
     printf("Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError());
     success = false;
@@ -429,7 +429,7 @@ int main(int argc, char *args[]) {
       // Event handler
       SDL_Event event;
 
-      // Set text color as black
+      // Set text color as red?
       SDL_Color textColor = {0, 0, 0, 255};
 
       // The frames per second timer
@@ -445,7 +445,7 @@ int main(int argc, char *args[]) {
       // SDL_Surface *textSurface = NULL;
       // SDL_Texture *textTexture = NULL;
 
-      SDL_Surface *background = IMG_Load("../resources/bg.png");
+      SDL_Surface *background = IMG_Load("../resources/bg.jpg");
       SDL_Texture *groundTexture =
           SDL_CreateTextureFromSurface(gRenderer, background);
 
