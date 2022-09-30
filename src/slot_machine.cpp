@@ -445,11 +445,11 @@ int main(int argc, char *args[]) {
       // SDL_Surface *textSurface = NULL;
       // SDL_Texture *textTexture = NULL;
 
-      SDL_Surface *background = IMG_Load("../resources/picture.bmp");
+      SDL_Surface *background = IMG_Load("../resources/bg.png");
       SDL_Texture *groundTexture =
           SDL_CreateTextureFromSurface(gRenderer, background);
 
-      SDL_Surface *image = IMG_Load("../resources/drum.bmp");
+      SDL_Surface *image = IMG_Load("../resources/drum.png");
       SDL_Texture *drumTexture = SDL_CreateTextureFromSurface(gRenderer, image);
 
       SDL_Rect drum1 = {0, 40, 85, 240};
