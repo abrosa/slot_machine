@@ -11,8 +11,8 @@
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL_ttf.h"
 
 // Screen dimension constants
-const int SCREEN_WIDTH = 670;
-const int SCREEN_HEIGHT = 420;
+const int SCREEN_WIDTH = 640;
+const int SCREEN_HEIGHT = 480;
 
 // Texture wrapper class
 class LTexture {
@@ -442,41 +442,50 @@ int main(int argc, char *args[]) {
       int countedFrames = 0;
       fpsTimer.start();
 
-      SDL_Surface *textSurface = NULL;
-      SDL_Texture *textTexture = NULL;
-      SDL_Rect textPosition = {5, 400, 100, 20};
+      // SDL_Surface *textSurface = NULL;
+      // SDL_Texture *textTexture = NULL;
 
       SDL_Surface *background = IMG_Load("../resources/picture.bmp");
       SDL_Texture *groundTexture =
           SDL_CreateTextureFromSurface(gRenderer, background);
 
-      SDL_Surface *image = IMG_Load("../resources/drum.png");
+      SDL_Surface *image = IMG_Load("../resources/drum.bmp");
       SDL_Texture *drumTexture = SDL_CreateTextureFromSurface(gRenderer, image);
-      SDL_Rect drum1 = {0, 80, 170, 320};
-      SDL_Rect drum2 = {0, 80, 170, 320};
-      SDL_Rect drum3 = {0, 80, 170, 320};
-      SDL_Rect viewpoint1 = {50, 50, 170, 320};
-      SDL_Rect viewpoint2 = {250, 50, 170, 320};
-      SDL_Rect viewpoint3 = {450, 50, 170, 320};
 
-      char *inputText;
-      inputText = reinterpret_cast<char *>(malloc(40));
-      int lengthText = 0;
+      SDL_Rect drum1 = {0, 40, 85, 240};
+      SDL_Rect drum2 = {0, 40, 85, 240};
+      SDL_Rect drum3 = {0, 40, 85, 240};
+      SDL_Rect drum4 = {0, 40, 85, 240};
+      SDL_Rect drum5 = {0, 40, 85, 240};
+
+      SDL_Rect viewpoint1 = {50, 50, 85, 240};
+      SDL_Rect viewpoint2 = {150, 50, 85, 240};
+      SDL_Rect viewpoint3 = {250, 50, 85, 240};
+      SDL_Rect viewpoint4 = {350, 50, 85, 240};
+      SDL_Rect viewpoint5 = {450, 50, 85, 240};
 
       // While application is running
       while (!quit) {
-        SDL_StartTextInput();
-        drum1.y -= 5;
+        // SDL_StartTextInput();
+        drum1.y -= 10;
         if (drum1.y < 0) {
-          drum1.y = 160 * 9;
+          drum1.y += 720;
         }
-        drum2.y -= 5;
+        drum2.y -= 9;
         if (drum2.y < 0) {
-          drum2.y = 160 * 9;
+          drum2.y += 720;
         }
-        drum3.y -= 5;
+        drum3.y -= 8;
         if (drum3.y < 0) {
-          drum3.y = 160 * 9;
+          drum3.y += 720;
+        }
+        drum4.y -= 7;
+        if (drum4.y < 0) {
+          drum4.y += 720;
+        }
+        drum5.y -= 6;
+        if (drum5.y < 0) {
+          drum5.y += 720;
         }
 
         // Handle events on queue
@@ -484,46 +493,6 @@ int main(int argc, char *args[]) {
           // User requests quit
           if (event.type == SDL_QUIT) {
             quit = -1;
-          } else if (event.type == SDL_KEYDOWN) {
-            switch (event.key.keysym.sym) {
-              case SDLK_UP:
-                drum1.y -= 5;
-                if (drum1.y < 0) {
-                  drum1.y = 160 * 9;
-                }
-                break;
-              case SDLK_DOWN:
-                drum2.y -= 5;
-                if (drum2.y < 0) {
-                  drum2.y = 160 * 9;
-                }
-                break;
-              case SDLK_LEFT:
-                drum3.y -= 5;
-                if (drum3.y < 0) {
-                  drum3.y = 160 * 9;
-                }
-                break;
-              case SDLK_RETURN:
-                if (lengthText > 0) {
-                  *inputText = '\0';
-                  inputText -= lengthText;
-                  textSurface =
-                      TTF_RenderText_Solid(gFont, inputText, textColor);
-                  textPosition.w = textSurface->w;
-                  textPosition.h = textSurface->h;
-                  textTexture =
-                      SDL_CreateTextureFromSurface(gRenderer, textSurface);
-                  lengthText = 0;
-                }
-                break;
-            }
-          } else if (event.type == SDL_TEXTINPUT) {
-            *inputText = *event.text.text;
-            inputText++;
-            lengthText++;
-            //} else if (event.type == SDL_MOUSEMOTION) {
-            //    SDL_GetMouseState(&x, &y);
           }
         }
 
@@ -544,26 +513,30 @@ int main(int argc, char *args[]) {
         }
 
         // Clear screen
-        SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
         SDL_RenderClear(gRenderer);
+
+        // Render background
         SDL_RenderCopy(gRenderer, groundTexture, NULL, NULL);
+
+        // Render three drums
         SDL_RenderCopy(gRenderer, drumTexture, &drum1, &viewpoint1);
         SDL_RenderCopy(gRenderer, drumTexture, &drum2, &viewpoint2);
         SDL_RenderCopy(gRenderer, drumTexture, &drum3, &viewpoint3);
+        SDL_RenderCopy(gRenderer, drumTexture, &drum4, &viewpoint4);
+        SDL_RenderCopy(gRenderer, drumTexture, &drum5, &viewpoint5);
 
-        // Render textures
-        gFPSTextTexture.render(5, 400);
+        // Render FPS
+        gFPSTextTexture.render(20, 420);
 
         // Update screen
         SDL_RenderPresent(gRenderer);
-        SDL_StopTextInput();
-
+        // SDL_StopTextInput();
         ++countedFrames;
       }
     }
   }
   // ???
-  SDL_RendererFlip flip = SDL_FLIP_HORIZONTAL;
+  // SDL_RendererFlip flip = SDL_FLIP_HORIZONTAL;
 
   // Free resources and close SDL
   close();
