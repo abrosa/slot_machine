@@ -1,58 +1,131 @@
 /* Copyright 2022 <Alexander Abrosov> */
 
-// Using SDL and standard IO
-#include <SDL.h>
-#include <stdio.h>
+#include "SDL.h"
+#include "SDL_image.h"
+#include "SDL_ttf.h"
 
-// Screen dimension constants
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
+#include <stdlib.h>
 
-int main(int argc, char *args[]) {
-  // The window we'll be rendering to
-  SDL_Window *window = NULL;
+int main(int argc, char *argv[]) {
+  SDL_Init(SDL_INIT_VIDEO);
+  TTF_Init();
+  SDL_Window *window =
+      SDL_CreateWindow("slot_machine", SDL_WINDOWPOS_UNDEFINED,
+                       SDL_WINDOWPOS_UNDEFINED, 640, 490, SDL_WINDOW_SHOWN);
+  SDL_Renderer *gRenderer =
+      SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+  SDL_Color textColor = {0, 255, 0};
+  TTF_Font *textFont = TTF_OpenFont("../resources/font.ttf", 18);
 
-  // The surface contained by the window
-  SDL_Surface *screenSurface = NULL;
+  SDL_Surface *image = SDL_LoadBMP("../resources/picture.bmp");
+  SDL_Surface *textSurface = NULL;
 
-  // Initialize SDL
-  if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-    printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
-  } else {
-    // Create window
-    window = SDL_CreateWindow("Slot Machine", SDL_WINDOWPOS_UNDEFINED,
-                              SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH,
-                              SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-    if (window == NULL) {
-      printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
-    } else {
-      // Get window surface
-      screenSurface = SDL_GetWindowSurface(window);
+  SDL_Texture *groundTexture = SDL_CreateTextureFromSurface(gRenderer, image);
+  SDL_Texture *textTexture = NULL;
 
-      // Fill the surface white
-      SDL_FillRect(screenSurface, NULL,
-                   SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF));
+  SDL_Rect cameraPosition = {100, 100, 300, 300};
+  SDL_Rect textPosition = {5, 450, 100, 20};
+  SDL_Rect minimap = {540, 0, 100, 100};
+  SDL_Rect brickVision = {563, 13, 45, 45};
+  SDL_Event e;
+  int quit = 0, x = 330, y = 240;
 
-      // Update the surface
-      SDL_UpdateWindowSurface(window);
+  char *inputText;
+  inputText = reinterpret_cast<char *>(malloc(40));
+  int lengthText = 0;
 
-      // Hack to get window to stay up
-      SDL_Event e;
-      bool quit = false;
-      while (quit == false) {
-        while (SDL_PollEvent(&e)) {
-          if (e.type == SDL_QUIT)
-            quit = true;
+  while (!quit) {
+    SDL_StartTextInput();
+
+    while (SDL_PollEvent(&e) != 0) {
+      if (e.type == SDL_QUIT) {
+        quit = 1;
+      } else if (e.type == SDL_KEYDOWN) {
+        switch (e.key.keysym.sym) {
+        case SDLK_UP:
+          if (cameraPosition.y > 0)
+            cameraPosition.y = cameraPosition.y - 5;
+          brickVision.y = brickVision.y - 1;
+          break;
+
+        case SDLK_DOWN:
+          if (cameraPosition.y < 200)
+            cameraPosition.y = cameraPosition.y + 5;
+          brickVision.y = brickVision.y + 1;
+          break;
+
+        case SDLK_LEFT:
+          if (cameraPosition.x >= 0)
+            cameraPosition.x = cameraPosition.x - 5;
+          brickVision.x = brickVision.x - 1;
+          break;
+
+        case SDLK_RIGHT:
+
+          if (cameraPosition.x < 340)
+            cameraPosition.x = cameraPosition.x + 5;
+          brickVision.x = brickVision.x + 1;
+          break;
+
+        case SDLK_RETURN:
+          if (lengthText > 0) {
+            *inputText = '\0';
+            inputText -= lengthText;
+            textSurface = TTF_RenderText_Solid(textFont, inputText, textColor);
+            textPosition.w = textSurface->w;
+            textPosition.h = textSurface->h;
+            textTexture = SDL_CreateTextureFromSurface(gRenderer, textSurface);
+            lengthText = 0;
+          }
+
+          break;
         }
+
+      } else if (e.type == SDL_TEXTINPUT) {
+        *inputText = *e.text.text;
+        inputText++;
+        lengthText++;
+
+      } else if (e.type == SDL_MOUSEMOTION) {
+        SDL_GetMouseState(&x, &y);
       }
     }
+
+    if (x < 105 && cameraPosition.x >= 0) {
+      cameraPosition.x = cameraPosition.x - 5;
+      brickVision.x = brickVision.x - 1;
+
+      SDL_Delay(10);
+    }
+    if (x > 505 && cameraPosition.x < 340) {
+      cameraPosition.x = cameraPosition.x + 5;
+      brickVision.x = brickVision.x + 1;
+
+      SDL_Delay(10);
+    }
+    if (y < 100 && cameraPosition.y >= 0) {
+      brickVision.y = brickVision.y - 1;
+      cameraPosition.y = cameraPosition.y - 5;
+      SDL_Delay(10);
+    }
+    if (y > 360 && cameraPosition.y < 210) {
+      brickVision.y = brickVision.y + 1;
+      cameraPosition.y = cameraPosition.y + 5;
+      SDL_Delay(10);
+    }
+    SDL_RenderClear(gRenderer);
+    SDL_RenderCopy(gRenderer, groundTexture, &cameraPosition, NULL);
+
+    SDL_RenderCopy(gRenderer, groundTexture, NULL, &minimap);
+    SDL_SetRenderDrawColor(gRenderer, 0x00, 0xFF, 0x00, 0xFF);
+    SDL_RenderDrawRect(gRenderer, &brickVision);
+    SDL_RenderCopy(gRenderer, textTexture, NULL, &textPosition);
+    SDL_RenderPresent(gRenderer);
+
+    SDL_StopTextInput();
   }
-
-  // Destroy window
+  SDL_RendererFlip flip = SDL_FLIP_HORIZONTAL;
   SDL_DestroyWindow(window);
-
-  // Quit SDL subsystems
+  TTF_Quit();
   SDL_Quit();
-
-  return 0;
 }
