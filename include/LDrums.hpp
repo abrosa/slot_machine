@@ -8,6 +8,18 @@
 // The number of drums
 const int DRUMS_COUNT = 5;
 
+// Drums constants
+const int DRUM_X = 50;
+const int DRUM_Y = 50;
+const int DRUM_WIDTH = 85;
+const int DRUM_HEIGHT = 240;
+
+// Next drums shifted +100 X
+const int DRUM_STEP = 100;
+
+// Drum size to loop it
+const int DRUM_SIZE = 720;
+
 // The drums
 class LDrums {
  public:

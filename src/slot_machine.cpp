@@ -3,8 +3,6 @@
 #include "../include/slot_machine.hpp"
 
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL.h"
-#include "../../x86_64-w64-mingw32/include/SDL2/SDL_image.h"
-#include "../../x86_64-w64-mingw32/include/SDL2/SDL_ttf.h"
 #include "../include/LApplication.hpp"
 #include "../include/LBackground.hpp"
 #include "../include/LButton.hpp"
@@ -20,8 +18,8 @@ LFPSText gFPSText;
 // Milliseconds since the SDL library initialized
 Uint64 start_time, curr_time;
 
-Uint64 start_rotation;
 // Rotation time = 5000 ms = 5 seconds
+Uint64 start_rotation;
 Uint64 rotation_time = 5000;
 
 // Frame counter

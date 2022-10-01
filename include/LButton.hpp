@@ -6,8 +6,8 @@
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL.h"
 
 // Button constants
-const int BUTTON_X = 300;
-const int BUTTON_Y = 300;
+const int BUTTON_X = 190;
+const int BUTTON_Y = 320;
 const int BUTTON_WIDTH = 200;
 const int BUTTON_HEIGHT = 80;
 

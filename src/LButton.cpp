@@ -2,17 +2,27 @@
 
 #include "../include/LButton.hpp"
 
+#include <cstdio>
+
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL.h"
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL_image.h"
 
 // Application renderer
 extern SDL_Renderer *gRenderer;
 
+// Button surface
+SDL_Surface *gButtonSurface;
+
 // Button texture
 SDL_Texture *gButtonTexture;
 
-LButton::LButton() {}
+// Set button position
+LButton::LButton() {
+  mPosition = {BUTTON_X, BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT};
+  gSpriteClips = {0, 0, BUTTON_WIDTH, BUTTON_HEIGHT};
+}
 
+// Processing mouse key press
 bool LButton::handleEvent(SDL_Event *e) {
   bool key_pressed;
   // If mouse event happened
@@ -30,24 +40,26 @@ bool LButton::handleEvent(SDL_Event *e) {
   return key_pressed;
 }
 
+// Flash button
 void LButton::update() {
-  // Flash button
   gSpriteClips.y -= 80;
   if (gSpriteClips.y < 0) {
     gSpriteClips.y += 320;
   }
 }
 
+// Load image for button
 void LButton::loadMedia() {
-  // Load sprites
-  SDL_Surface *image = IMG_Load("../resources/button.png");
-  gButtonTexture = SDL_CreateTextureFromSurface(gRenderer, image);
-  // Button position
-  mPosition = {BUTTON_X, BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT};
-  gSpriteClips = {0, 0, BUTTON_WIDTH, BUTTON_HEIGHT};
+  gButtonSurface = IMG_Load("../resources/button.png");
+  if (gButtonSurface == NULL) {
+    printf("Failed to load image. SDL_image Error: %s\n", SDL_GetError());
+  }
+
+  // Create texture from surface
+  gButtonTexture = SDL_CreateTextureFromSurface(gRenderer, gButtonSurface);
 }
 
+// Render button
 void LButton::render() {
-  // Render button
   SDL_RenderCopy(gRenderer, gButtonTexture, &gSpriteClips, &mPosition);
 }

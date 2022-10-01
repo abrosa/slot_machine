@@ -3,15 +3,13 @@
 #ifndef INCLUDE_LFPSTEXT_HPP_
 #define INCLUDE_LFPSTEXT_HPP_
 
-#include <sstream>
-
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL.h"
 
 // Text constants
 const int TEXT_X = 20;
 const int TEXT_Y = 420;
-const int TEXT_WIDTH = 200;
-const int TEXT_HEIGHT = 60;
+const int TEXT_WIDTH = 174;
+const int TEXT_HEIGHT = 58;
 
 // Class for FPS text
 class LFPSText {
@@ -31,6 +29,9 @@ class LFPSText {
  private:
   // Rectangle for FPS text
   SDL_Rect FPSRectangle;
+
+  // Color for FPS text
+  SDL_Color FPSTextColor;
 };
 
 #endif  // INCLUDE_LFPSTEXT_HPP_
