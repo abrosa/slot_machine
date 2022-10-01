@@ -13,23 +13,18 @@
 #include "../include/LTexture.hpp"
 #include "../include/LTimer.hpp"
 
-// Background image
+// Objects for application
+LButton gButton;
 LBackground gBackground;
-
-// Start button
-LButton gButtons;
-
-// Rolling drums
 LDrums gDrums;
-
-// FPS text
 LFPSText gFPSText;
 
-// FPS timer
-LTimer fpsTimer;
-
 // Milliseconds since the SDL library initialized
-uint32_t ticks;
+Uint64 start_time, curr_time;
+
+Uint64 start_rotation;
+// Rotation time = 5000 ms = 5 seconds
+Uint64 rotation_time = 5000;
 
 // Frame counter
 int countedFrames;
@@ -44,22 +39,20 @@ int main(int argc, char *args[]) {
   // Event handler
   SDL_Event event;
 
-  // Load image for button
-  gButtons.loadMedia();
-
-  // Load image for background
+  // Load resources
+  gButton.loadMedia();
   gBackground.loadMedia();
-
-  // Load image for drums
   gDrums.loadMedia();
+  gFPSText.loadMedia();
 
   // Start counting frames per second
   countedFrames = 0;
-  fpsTimer.start();
+  start_time = SDL_GetTicks64();
 
   // Main loop flags
   bool quit_requested = false;
-  bool start_spin = false;
+  bool button_pressed = false;
+  bool drums_stopped = false;
 
   // While application is running
   while (!quit_requested) {
@@ -69,35 +62,46 @@ int main(int argc, char *args[]) {
       if (event.type == SDL_QUIT) {
         quit_requested = true;
       }
-      if (!start_spin) {
+      if (!button_pressed) {
         // Handle button events
-        start_spin = gButtons.handleEvent(&event);
+        button_pressed = gButton.handleEvent(&event);
+        if (button_pressed) {
+          start_rotation = SDL_GetTicks64();
+        }
       }
     }
 
-    if (start_spin) {
-      // Move drums
-      gDrums.update();
+    if (button_pressed) {
+      curr_time = SDL_GetTicks64();
+      if (rotation_time > curr_time - start_rotation) {
+        // Move drums
+        gDrums.update();
+      } else {
+        drums_stopped = true;
+      }
+    }
+
+    // reset button for next roll
+    if (drums_stopped) {
+      button_pressed = false;
+      drums_stopped = false;
     }
 
     // Flash button
-    gButtons.update();
+    gButton.update();
 
     // Clear screen
     SDL_RenderClear(gRenderer);
 
-    // Render background
+    // Render objects
     gBackground.render();
-
-    // Render five drums
     gDrums.render();
+    gButton.render();
 
-    // Calculate and render FPS
-    ticks = fpsTimer.getTicks();
-    gFPSText.render(countedFrames, ticks);
-
-    // Render buttons
-    gButtons.render();
+    // Get ticks at the end of frame
+    curr_time = SDL_GetTicks64();
+    gFPSText.get_text(countedFrames, start_time, curr_time);
+    gFPSText.render();
 
     // Update screen
     SDL_RenderPresent(gRenderer);

@@ -7,34 +7,53 @@
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL.h"
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL_image.h"
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL_ttf.h"
-#include "../include/LTexture.hpp"
-#include "../include/LTimer.hpp"
+// #include "../include/LTexture.hpp"
+// #include "../include/LTimer.hpp"
 
 // Texture for rendering FPS text
-LTexture gFPSTextTexture;
+// LTexture gFPSTextTexture;
 
 // The window renderer
 extern SDL_Renderer *gRenderer;
 
+// Globally used font
+TTF_Font *gFont;
+
+// Texture
+SDL_Texture *gFPSTexture;
+
 LFPSText::LFPSText() {
-  // Set text color as black
-  FPSTextColor = {0, 0, 0, 255};
+  // Set text rectangle
+  FPSRectangle = {20, 420, 200, 80};
 }
 
-void LFPSText::render(int countedFrames, uint32_t ticks) {
-  // Calculate and correct fps
-  float avgFPS = countedFrames / (ticks / 1000.f);
-  if (avgFPS > 2000000) {
-    avgFPS = 0;
+void LFPSText::get_text(int countedFrames, Uint64 ticks1, Uint64 ticks2) {
+  // Calculate FPS
+  double avgFPS = 1000.0L * countedFrames / (ticks2 - ticks1);
+  // debug double avgFPS = 1.0L * (ticks2 - ticks1);
+
+  // Convert double to string
+  char buffer[8];
+  snprintf(buffer, sizeof(buffer), "%6.3f", avgFPS);
+
+  // Define color
+  SDL_Color Black = {0, 0, 0, 255};
+
+  // Render text surface
+  SDL_Surface *textSurface = TTF_RenderText_Solid(gFont, buffer, Black);
+  // Create texture from surface
+  gFPSTexture = SDL_CreateTextureFromSurface(gRenderer, textSurface);
+}
+
+void LFPSText::loadMedia() {
+  // Open the font
+  gFont = TTF_OpenFont("../resources/FiraSans-Bold.ttf", 24);
+  if (gFont == NULL) {
+    printf("Failed to load font. SDL_ttf Error: %s\n", TTF_GetError());
   }
-  // Set text to be rendered
-  timeText.str("");
-  timeText << "FPS: " << avgFPS;
-  // Render text
-  if (!gFPSTextTexture.loadFromRenderedText(timeText.str().c_str(),
-                                            FPSTextColor)) {
-    printf("Unable to render FPS texture!\n");
-  }
-  // Render FPS
-  gFPSTextTexture.render(20, 420);
+}
+
+void LFPSText::render() {
+  // Render button
+  SDL_RenderCopy(gRenderer, gFPSTexture, NULL, &FPSRectangle);
 }

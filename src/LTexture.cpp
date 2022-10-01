@@ -13,7 +13,7 @@
 extern SDL_Renderer *gRenderer;
 
 // Globally used font
-TTF_Font *gFont;
+extern TTF_Font *gFont;
 
 LTexture::LTexture() {
   // Initialize
