@@ -42,9 +42,12 @@ bool LButton::handleEvent(SDL_Event *e) {
 
 // Flash button
 void LButton::update() {
-  gSpriteClips.y -= 80;
+  // Move sprite up to the next
+  gSpriteClips.y -= BUTTON_HEIGHT;
+
+  // If it was the last one, move down to the end
   if (gSpriteClips.y < 0) {
-    gSpriteClips.y += 320;
+    gSpriteClips.y += SPRITES_SIZE;
   }
 }
 

@@ -5,10 +5,13 @@
 
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL.h"
 
-// Text constants
-const int TEXT_X = 20;
-const int TEXT_Y = 420;
-const int TEXT_WIDTH = 174;
+// Text position
+const int TEXT_X = 40;
+const int TEXT_Y = 502;
+
+// Size of generated text exactly for this font
+// "FPS: 60.000"
+const int TEXT_WIDTH = 319;
 const int TEXT_HEIGHT = 58;
 
 // Class for FPS text

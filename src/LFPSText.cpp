@@ -20,7 +20,7 @@ SDL_Surface *gFPSSurface;
 SDL_Texture *gFPSTexture;
 
 // Buffer for converting double to string
-char buffer[8];
+char buffer[12];
 
 // Set text rectangle
 LFPSText::LFPSText() {
@@ -34,7 +34,7 @@ void LFPSText::get_text(int countedFrames, Uint64 ticks1, Uint64 ticks2) {
   double avgFPS = 1000.0L * countedFrames / (ticks2 - ticks1);
 
   // Convert double to string
-  snprintf(buffer, sizeof(buffer), "%6.3f", avgFPS);
+  snprintf(buffer, sizeof(buffer), "FPS: %6.3f", avgFPS);
 }
 
 // Open the font

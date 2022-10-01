@@ -2,6 +2,9 @@
 
 #include "../include/slot_machine.hpp"
 
+#include <cstdlib>
+#include <random>
+
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL.h"
 #include "../include/LApplication.hpp"
 #include "../include/LBackground.hpp"
@@ -20,9 +23,13 @@ Uint64 start_time, curr_time;
 
 // The moment of starting rotation
 Uint64 start_rotation;
-// Rotation time = 4000 - 5000 ms = 4 - 5 seconds
-Uint64 rotation_time[DRUMS_COUNT] = {4000, 4260, 4520, 4780, 5040};
-Uint64 full_stop = 5300;
+
+// Random speed in range
+// MIN_SPEED + 0..ACCELERATION pixels per frame
+int speed;
+
+// Random start symbol in range 0..SYMBOLS_COUNT
+int symbol;
 
 // Frame counter
 int countedFrames;
@@ -31,6 +38,11 @@ int countedFrames;
 extern SDL_Renderer *gRenderer;
 
 int main(int argc, char *args[]) {
+  // Use c++ random number generation facilities
+  std::default_random_engine generator;
+  std::uniform_int_distribution<int> distribution1(0, SYMBOLS_COUNT - 1);
+  std::uniform_int_distribution<int> distribution2(0, ACCELERATION - 1);
+
   // Init application
   LApplication *Application = new LApplication();
 
@@ -41,7 +53,8 @@ int main(int argc, char *args[]) {
   gButton.loadMedia();
   gBackground.loadMedia();
   for (int i = 0; i < DRUMS_COUNT; ++i) {
-    gDrums[i].loadMedia(i);
+    symbol = distribution1(generator);
+    gDrums[i].loadMedia(i, symbol);
   }
   gFPSText.loadMedia();
 
@@ -74,10 +87,13 @@ int main(int argc, char *args[]) {
     if (button_pressed) {
       curr_time = SDL_GetTicks64();
       for (int i = 0; i < DRUMS_COUNT; ++i) {
-        if (rotation_time[i] > curr_time - start_rotation) {
-          gDrums[i].update();
+        if (ROTATION_TIME[i] > curr_time - start_rotation) {
+          speed = distribution2(generator);
+          gDrums[i].update(MIN_SPEED + speed);
+        } else {
+          gDrums[i].slow();
         }
-        if (full_stop < curr_time - start_rotation) {
+        if (FULL_STOP < curr_time - start_rotation) {
           drums_stopped = true;
         }
       }
