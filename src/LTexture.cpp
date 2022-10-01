@@ -7,13 +7,13 @@
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL.h"
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL_image.h"
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL_ttf.h"
-#include "../include/slot_machine.hpp"
+#include "../include/LApplication.hpp"
 
 // The window renderer
 extern SDL_Renderer *gRenderer;
 
 // Globally used font
-extern TTF_Font *gFont;
+TTF_Font *gFont;
 
 LTexture::LTexture() {
   // Initialize
@@ -68,6 +68,12 @@ bool LTexture::loadFromRenderedText(std::string textureText,
                                     SDL_Color textColor) {
   // Get rid of preexisting texture
   free();
+
+  // Open the font
+  gFont = TTF_OpenFont("../resources/FiraSans-Bold.ttf", 32);
+  if (gFont == NULL) {
+    printf("Failed to load font. SDL_ttf Error: %s\n", TTF_GetError());
+  }
 
   // Render text surface
   SDL_Surface *textSurface =

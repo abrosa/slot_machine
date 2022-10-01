@@ -1,5 +1,5 @@
 #OBJS specifies which files to compile as part of the project
-OBJS = ./src/LButton.cpp ./src/LTexture.cpp ./src/LTimer.cpp ./src/slot_machine.cpp
+OBJS = ./src/LApplication.cpp ./src/LButton.cpp ./src/LTexture.cpp ./src/LTimer.cpp ./src/slot_machine.cpp
 
 #CC specifies which compiler we're using
 CC = g++

@@ -8,12 +8,10 @@
 #include "../include/LTexture.hpp"
 #include "../include/slot_machine.hpp"
 
-// Mouse button sprites
-SDL_Rect gSpriteClips[BUTTON_SPRITE_TOTAL];
 LTexture gButtonSpriteSheetTexture;
 
-// Buttons objects
-LButton gButtons;
+// Mouse button sprites
+SDL_Rect gSpriteClips[BUTTON_SPRITE_TOTAL];
 
 LButton::LButton() {
   mPosition.x = 0;
@@ -79,4 +77,24 @@ void LButton::render() {
   // Show current button sprite
   gButtonSpriteSheetTexture.render(mPosition.x, mPosition.y,
                                    &gSpriteClips[mCurrentSprite]);
+}
+
+bool LButton::loadMedia() {
+  // Loading success flag
+  bool status = true;
+  // Load sprites
+  if (!gButtonSpriteSheetTexture.loadFromFile("../resources/button.bmp")) {
+    printf("Failed to load button sprite texture!\n");
+    status = false;
+  } else {
+    // Set sprites
+    for (int i = 0; i < BUTTON_SPRITE_TOTAL; ++i) {
+      gSpriteClips[i].x = 0;
+      gSpriteClips[i].y = i * BUTTON_HEIGHT;
+      gSpriteClips[i].w = BUTTON_WIDTH;
+      gSpriteClips[i].h = BUTTON_HEIGHT;
+    }
+  }
+  // Return with or without success
+  return status;
 }
