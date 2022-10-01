@@ -24,6 +24,13 @@ SDL_Renderer *gRenderer = NULL;
 // Globally used font
 TTF_Font *gFont = NULL;
 
+// Mouse button sprites
+extern SDL_Rect gSpriteClips[BUTTON_SPRITE_TOTAL];
+extern LTexture gButtonSpriteSheetTexture;
+
+// Buttons objects
+extern LButton gButtons;
+
 // Scene textures
 LTexture gFPSTextTexture;
 
@@ -84,31 +91,44 @@ bool init() {
 bool loadMedia() {
   // Loading success flag
   bool success = true;
-
+  // Load sprites
+  if (!gButtonSpriteSheetTexture.loadFromFile("../resources/button.bmp")) {
+    printf("Failed to load button sprite texture!\n");
+    success = false;
+  } else {
+    // Set sprites
+    for (int i = 0; i < BUTTON_SPRITE_TOTAL; ++i) {
+      gSpriteClips[i].x = 0;
+      gSpriteClips[i].y = i * BUTTON_HEIGHT;
+      gSpriteClips[i].w = BUTTON_WIDTH;
+      gSpriteClips[i].h = BUTTON_HEIGHT;
+    }
+    // Set buttons in corners
+    gButtons.setPosition(300, 300);
+  }
   // Open the font
   gFont = TTF_OpenFont("../resources/FiraSans-Bold.ttf", 32);
   if (gFont == NULL) {
-    printf("Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError());
+    printf("Failed to load font. SDL_ttf Error: %s\n", TTF_GetError());
     success = false;
   }
-
+  // Return with or without success
   return success;
 }
 
 void close() {
   // Free loaded images
+  gButtonSpriteSheetTexture.free();
+  // Free loaded images
   gFPSTextTexture.free();
-
   // Free global font
   TTF_CloseFont(gFont);
   gFont = NULL;
-
   // Destroy window
   SDL_DestroyRenderer(gRenderer);
   SDL_DestroyWindow(gWindow);
   gWindow = NULL;
   gRenderer = NULL;
-
   // Quit SDL subsystems
   TTF_Quit();
   IMG_Quit();
@@ -126,48 +146,39 @@ int main(int argc, char *args[]) {
     } else {
       // Main loop flag
       int quit = 0;
-
       // Event handler
       SDL_Event event;
-
-      // Set text color as red?
+      // Set text color as black
       SDL_Color textColor = {0, 0, 0, 255};
-
       // The frames per second timer
       LTimer fpsTimer;
-
       // In memory text stream
       std::stringstream timeText;
-
       // Start counting frames per second
       int countedFrames = 0;
       fpsTimer.start();
-
-      // SDL_Surface *textSurface = NULL;
-      // SDL_Texture *textTexture = NULL;
-
+      // Load image for background
       SDL_Surface *background = IMG_Load("../resources/bg.jpg");
       SDL_Texture *groundTexture =
           SDL_CreateTextureFromSurface(gRenderer, background);
-
+      // Load image for drums
       SDL_Surface *image = IMG_Load("../resources/drum.png");
       SDL_Texture *drumTexture = SDL_CreateTextureFromSurface(gRenderer, image);
-
+      // Drums
       SDL_Rect drum1 = {0, 40, 85, 240};
       SDL_Rect drum2 = {0, 40, 85, 240};
       SDL_Rect drum3 = {0, 40, 85, 240};
       SDL_Rect drum4 = {0, 40, 85, 240};
       SDL_Rect drum5 = {0, 40, 85, 240};
-
+      // Windows
       SDL_Rect viewpoint1 = {50, 50, 85, 240};
       SDL_Rect viewpoint2 = {150, 50, 85, 240};
       SDL_Rect viewpoint3 = {250, 50, 85, 240};
       SDL_Rect viewpoint4 = {350, 50, 85, 240};
       SDL_Rect viewpoint5 = {450, 50, 85, 240};
-
       // While application is running
       while (!quit) {
-        // SDL_StartTextInput();
+        // Move drums
         drum1.y -= 10;
         if (drum1.y < 0) {
           drum1.y += 720;
@@ -188,59 +199,51 @@ int main(int argc, char *args[]) {
         if (drum5.y < 0) {
           drum5.y += 720;
         }
-
         // Handle events on queue
         while (SDL_PollEvent(&event) != 0) {
           // User requests quit
           if (event.type == SDL_QUIT) {
             quit = -1;
           }
+          // Handle button events
+          gButtons.handleEvent(&event);
         }
-
         // Calculate and correct fps
         float avgFPS = countedFrames / (fpsTimer.getTicks() / 1000.f);
         if (avgFPS > 2000000) {
           avgFPS = 0;
         }
-
         // Set text to be rendered
         timeText.str("");
         timeText << "FPS: " << avgFPS;
-
         // Render text
         if (!gFPSTextTexture.loadFromRenderedText(timeText.str().c_str(),
                                                   textColor)) {
           printf("Unable to render FPS texture!\n");
         }
-
         // Clear screen
         SDL_RenderClear(gRenderer);
-
         // Render background
         SDL_RenderCopy(gRenderer, groundTexture, NULL, NULL);
-
-        // Render three drums
+        // Render five drums
         SDL_RenderCopy(gRenderer, drumTexture, &drum1, &viewpoint1);
         SDL_RenderCopy(gRenderer, drumTexture, &drum2, &viewpoint2);
         SDL_RenderCopy(gRenderer, drumTexture, &drum3, &viewpoint3);
         SDL_RenderCopy(gRenderer, drumTexture, &drum4, &viewpoint4);
         SDL_RenderCopy(gRenderer, drumTexture, &drum5, &viewpoint5);
-
         // Render FPS
         gFPSTextTexture.render(20, 420);
-
+        // Render buttons
+        gButtons.render();
         // Update screen
         SDL_RenderPresent(gRenderer);
-        // SDL_StopTextInput();
+        // Count Frames
         ++countedFrames;
       }
     }
   }
-  // ???
-  // SDL_RendererFlip flip = SDL_FLIP_HORIZONTAL;
-
   // Free resources and close SDL
   close();
-
+  // Exit with good return code
   return 0;
 }

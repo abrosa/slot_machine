@@ -12,6 +12,9 @@
 SDL_Rect gSpriteClips[BUTTON_SPRITE_TOTAL];
 LTexture gButtonSpriteSheetTexture;
 
+// Buttons objects
+LButton gButtons;
+
 LButton::LButton() {
   mPosition.x = 0;
   mPosition.y = 0;

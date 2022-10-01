@@ -8,9 +8,8 @@
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL_ttf.h"
 
 // Button constants
-const int BUTTON_WIDTH = 300;
-const int BUTTON_HEIGHT = 200;
-const int TOTAL_BUTTONS = 4;
+const int BUTTON_WIDTH = 200;
+const int BUTTON_HEIGHT = 80;
 
 enum LButtonSprite {
   BUTTON_SPRITE_MOUSE_OUT = 0,
