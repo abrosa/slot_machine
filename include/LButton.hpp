@@ -24,7 +24,7 @@ class LButton {
   LButton();
 
   // Sets top left position
-  void setPosition(int x, int y);
+  // void setPosition(int x, int y);
 
   // Handles mouse event
   void handleEvent(SDL_Event *e);
