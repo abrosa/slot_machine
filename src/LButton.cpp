@@ -4,97 +4,50 @@
 
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL.h"
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL_image.h"
-#include "../../x86_64-w64-mingw32/include/SDL2/SDL_ttf.h"
-#include "../include/LTexture.hpp"
-#include "../include/slot_machine.hpp"
 
-LTexture gButtonSpriteSheetTexture;
+// Application renderer
+extern SDL_Renderer *gRenderer;
 
-// Mouse button sprites
-SDL_Rect gSpriteClips[BUTTON_SPRITE_TOTAL];
+// Button texture
+SDL_Texture *gButtonTexture;
 
-LButton::LButton() {
-  mPosition.x = 300;
-  mPosition.y = 300;
+LButton::LButton() {}
 
-  mCurrentSprite = BUTTON_SPRITE_MOUSE_OUT;
-}
-
-// void LButton::setPosition(int x, int y) {
-//   mPosition.x = x;
-//   mPosition.y = y;
-// }
-
-void LButton::handleEvent(SDL_Event *e) {
+bool LButton::handleEvent(SDL_Event *e) {
+  bool key_pressed;
   // If mouse event happened
-  if (e->type == SDL_MOUSEMOTION || e->type == SDL_MOUSEBUTTONDOWN ||
-      e->type == SDL_MOUSEBUTTONUP) {
+  if (e->type == SDL_MOUSEBUTTONDOWN || e->type == SDL_MOUSEBUTTONUP) {
     // Get mouse position
     int x, y;
     SDL_GetMouseState(&x, &y);
-
-    // Check if mouse is in button
-    bool inside = true;
-
-    // Mouse is left of the button
-    if (x < mPosition.x) {
-      inside = false;
-      // Mouse is right of the button
-    } else if (x > mPosition.x + BUTTON_WIDTH) {
-      inside = false;
-      // Mouse above the button
-    } else if (y < mPosition.y) {
-      inside = false;
-      // Mouse below the button
-    } else if (y > mPosition.y + BUTTON_HEIGHT) {
-      inside = false;
-    }
-
-    // Mouse is outside button
-    if (!inside) {
-      mCurrentSprite = BUTTON_SPRITE_MOUSE_OUT;
-      // Mouse is inside button
-    } else {
-      // Set mouse over sprite
-      switch (e->type) {
-        case SDL_MOUSEMOTION:
-          mCurrentSprite = BUTTON_SPRITE_MOUSE_OVER_MOTION;
-          break;
-
-        case SDL_MOUSEBUTTONDOWN:
-          mCurrentSprite = BUTTON_SPRITE_MOUSE_DOWN;
-          break;
-
-        case SDL_MOUSEBUTTONUP:
-          mCurrentSprite = BUTTON_SPRITE_MOUSE_UP;
-          break;
-      }
+    // Check if mouse key was pressed or released on the button
+    key_pressed = false;
+    if (x > mPosition.x && x < mPosition.x + BUTTON_WIDTH && y > mPosition.y &&
+        y < mPosition.y + BUTTON_HEIGHT) {
+      key_pressed = true;
     }
   }
+  return key_pressed;
+}
+
+void LButton::update() {
+  // Flash button
+  gSpriteClips.y -= 80;
+  if (gSpriteClips.y < 0) {
+    gSpriteClips.y += 320;
+  }
+}
+
+void LButton::loadMedia() {
+  // Load sprites
+  SDL_Surface *image = IMG_Load("../resources/button.png");
+  gButtonTexture = SDL_CreateTextureFromSurface(gRenderer, image);
+  // Button position
+  mPosition = {BUTTON_X, BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT};
+  gSpriteClips = {0, 0, BUTTON_WIDTH, BUTTON_HEIGHT};
 }
 
 void LButton::render() {
-  // Show current button sprite
-  gButtonSpriteSheetTexture.render(mPosition.x, mPosition.y,
-                                   &gSpriteClips[mCurrentSprite]);
-}
-
-bool LButton::loadMedia() {
-  // Loading success flag
-  bool status = true;
-  // Load sprites
-  if (!gButtonSpriteSheetTexture.loadFromFile("../resources/button.bmp")) {
-    printf("Failed to load button sprite texture!\n");
-    status = false;
-  } else {
-    // Set sprites
-    for (int i = 0; i < BUTTON_SPRITE_TOTAL; ++i) {
-      gSpriteClips[i].x = 0;
-      gSpriteClips[i].y = i * BUTTON_HEIGHT;
-      gSpriteClips[i].w = BUTTON_WIDTH;
-      gSpriteClips[i].h = BUTTON_HEIGHT;
-    }
-  }
-  // Return with or without success
-  return status;
+  // Render button
+  SDL_RenderCopy(gRenderer, gButtonTexture, &gSpriteClips, &mPosition);
 }

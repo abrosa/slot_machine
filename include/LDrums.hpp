@@ -8,7 +8,7 @@
 // The number of drums
 const int DRUMS_COUNT = 5;
 
-// The mouse button
+// The drums
 class LDrums {
  public:
   // Initializes internal variables
@@ -24,9 +24,10 @@ class LDrums {
   void loadMedia();
 
  private:
-  // Drums
+  // Drums positions
   SDL_Rect drums[DRUMS_COUNT];
-  // Windows
+
+  // Drums windows
   SDL_Rect viewpoints[DRUMS_COUNT];
 };
 

@@ -5,8 +5,10 @@
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL.h"
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL_image.h"
 
+// Application renderer
 extern SDL_Renderer *gRenderer;
 
+// Drums texture
 SDL_Texture *gDrumsTexture;
 
 LDrums::LDrums() {}
@@ -24,11 +26,11 @@ void LDrums::loadMedia() {
   // Load image for drums
   SDL_Surface *image = IMG_Load("../resources/drum.png");
   gDrumsTexture = SDL_CreateTextureFromSurface(gRenderer, image);
-  // Drums
+  // Drums positions
   for (int i = 0; i < DRUMS_COUNT; ++i) {
     drums[i] = {0, 40, 85, 240};
   }
-  // Viewpoints
+  // Drums windows
   for (int i = 0; i < DRUMS_COUNT; ++i) {
     viewpoints[i] = {100 * i + 50, 50, 85, 240};
   }

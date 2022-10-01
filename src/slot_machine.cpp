@@ -2,8 +2,6 @@
 
 #include "../include/slot_machine.hpp"
 
-#include <sstream>
-
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL.h"
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL_image.h"
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL_ttf.h"
@@ -59,8 +57,9 @@ int main(int argc, char *args[]) {
   countedFrames = 0;
   fpsTimer.start();
 
-  // Main loop flag
+  // Main loop flags
   bool quit_requested = false;
+  bool start_spin = false;
 
   // While application is running
   while (!quit_requested) {
@@ -70,12 +69,19 @@ int main(int argc, char *args[]) {
       if (event.type == SDL_QUIT) {
         quit_requested = true;
       }
-      // Handle button events
-      gButtons.handleEvent(&event);
+      if (!start_spin) {
+        // Handle button events
+        start_spin = gButtons.handleEvent(&event);
+      }
     }
 
-    // Move drums
-    gDrums.update();
+    if (start_spin) {
+      // Move drums
+      gDrums.update();
+    }
+
+    // Flash button
+    gButtons.update();
 
     // Clear screen
     SDL_RenderClear(gRenderer);

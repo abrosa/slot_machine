@@ -60,16 +60,6 @@ LApplication::LApplication() {
 }
 
 LApplication::~LApplication() {
-  // Free loaded images
-  // gButtonSpriteSheetTexture.free();
-
-  // Free loaded images
-  // gFPSTextTexture.free();
-
-  // Free global font
-  // TTF_CloseFont(gFont);
-  // gFont = NULL;
-
   // Destroy window
   SDL_DestroyRenderer(gRenderer);
   SDL_DestroyWindow(gWindow);

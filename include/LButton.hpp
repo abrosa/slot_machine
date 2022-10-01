@@ -6,16 +6,10 @@
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL.h"
 
 // Button constants
+const int BUTTON_X = 300;
+const int BUTTON_Y = 300;
 const int BUTTON_WIDTH = 200;
 const int BUTTON_HEIGHT = 80;
-
-enum LButtonSprite {
-  BUTTON_SPRITE_MOUSE_OUT = 0,
-  BUTTON_SPRITE_MOUSE_OVER_MOTION = 1,
-  BUTTON_SPRITE_MOUSE_DOWN = 2,
-  BUTTON_SPRITE_MOUSE_UP = 3,
-  BUTTON_SPRITE_TOTAL = 4
-};
 
 // The mouse button
 class LButton {
@@ -23,24 +17,24 @@ class LButton {
   // Initializes internal variables
   LButton();
 
-  // Sets top left position
-  // void setPosition(int x, int y);
-
   // Handles mouse event
-  void handleEvent(SDL_Event *e);
+  bool handleEvent(SDL_Event *e);
+
+  // Flash button
+  void update();
 
   // Shows button sprite
   void render();
 
   // Load media
-  bool loadMedia();
+  void loadMedia();
 
  private:
-  // Top left position
-  SDL_Point mPosition;
+  // Button position
+  SDL_Rect mPosition;
 
-  // Currently used global sprite
-  LButtonSprite mCurrentSprite;
+  // Button window
+  SDL_Rect gSpriteClips;
 };
 
 #endif  // INCLUDE_LBUTTON_HPP_
