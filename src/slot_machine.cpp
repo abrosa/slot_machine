@@ -9,14 +9,15 @@
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL_ttf.h"
 #include "../include/LApplication.hpp"
 #include "../include/LButton.hpp"
+#include "../include/LDrums.hpp"
 #include "../include/LTexture.hpp"
 #include "../include/LTimer.hpp"
-
-// SDL_Renderer *gRenderer = NULL;
 
 LTexture gFPSTextTexture;
 
 LButton gButtons;
+
+LDrums gDrums;
 
 // The window renderer
 extern SDL_Renderer *gRenderer;
@@ -45,20 +46,7 @@ int main(int argc, char *args[]) {
   SDL_Texture *groundTexture =
       SDL_CreateTextureFromSurface(gRenderer, background);
   // Load image for drums
-  SDL_Surface *image = IMG_Load("../resources/drum.png");
-  SDL_Texture *drumTexture = SDL_CreateTextureFromSurface(gRenderer, image);
-  // Drums
-  SDL_Rect drum1 = {0, 40, 85, 240};
-  SDL_Rect drum2 = {0, 40, 85, 240};
-  SDL_Rect drum3 = {0, 40, 85, 240};
-  SDL_Rect drum4 = {0, 40, 85, 240};
-  SDL_Rect drum5 = {0, 40, 85, 240};
-  // Windows
-  SDL_Rect viewpoint1 = {50, 50, 85, 240};
-  SDL_Rect viewpoint2 = {150, 50, 85, 240};
-  SDL_Rect viewpoint3 = {250, 50, 85, 240};
-  SDL_Rect viewpoint4 = {350, 50, 85, 240};
-  SDL_Rect viewpoint5 = {450, 50, 85, 240};
+  gDrums.loadMedia();
 
   // Set buttons to place
   gButtons.setPosition(300, 300);
@@ -66,26 +54,7 @@ int main(int argc, char *args[]) {
   // While application is running
   while (!quit) {
     // Move drums
-    drum1.y -= 10;
-    if (drum1.y < 0) {
-      drum1.y += 720;
-    }
-    drum2.y -= 9;
-    if (drum2.y < 0) {
-      drum2.y += 720;
-    }
-    drum3.y -= 8;
-    if (drum3.y < 0) {
-      drum3.y += 720;
-    }
-    drum4.y -= 7;
-    if (drum4.y < 0) {
-      drum4.y += 720;
-    }
-    drum5.y -= 6;
-    if (drum5.y < 0) {
-      drum5.y += 720;
-    }
+    gDrums.update();
     // Handle events on queue
     while (SDL_PollEvent(&event) != 0) {
       // User requests quit
@@ -113,11 +82,7 @@ int main(int argc, char *args[]) {
     // Render background
     SDL_RenderCopy(gRenderer, groundTexture, NULL, NULL);
     // Render five drums
-    SDL_RenderCopy(gRenderer, drumTexture, &drum1, &viewpoint1);
-    SDL_RenderCopy(gRenderer, drumTexture, &drum2, &viewpoint2);
-    SDL_RenderCopy(gRenderer, drumTexture, &drum3, &viewpoint3);
-    SDL_RenderCopy(gRenderer, drumTexture, &drum4, &viewpoint4);
-    SDL_RenderCopy(gRenderer, drumTexture, &drum5, &viewpoint5);
+    gDrums.render();
     // Render FPS
     gFPSTextTexture.render(20, 420);
     // Render buttons

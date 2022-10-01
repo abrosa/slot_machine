@@ -4,8 +4,6 @@
 #define INCLUDE_LBUTTON_HPP_
 
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL.h"
-// #include "../../x86_64-w64-mingw32/include/SDL2/SDL_image.h"
-// #include "../../x86_64-w64-mingw32/include/SDL2/SDL_ttf.h"
 
 // Button constants
 const int BUTTON_WIDTH = 200;
