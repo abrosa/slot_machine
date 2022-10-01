@@ -16,30 +16,25 @@ SDL_Surface *gDrumsSurface;
 // Drums texture
 SDL_Texture *gDrumsTexture;
 
-// Drums positions and windows
-LDrums::LDrums() {
-  for (int i = 0; i < DRUMS_COUNT; ++i) {
-    drums[i] = {0, 0, DRUM_WIDTH, DRUM_HEIGHT};
-    viewpoints[i] = {DRUM_STEP * i + DRUM_X, DRUM_Y, DRUM_WIDTH, DRUM_HEIGHT};
-  }
-}
+// Drums constructor
+LDrums::LDrums() { drums = {0, 0, DRUM_WIDTH, DRUM_HEIGHT}; }
 
 // Rotate drums
 void LDrums::update() {
-  for (int i = 0; i < DRUMS_COUNT; ++i) {
-    drums[i].y -= 40 - 4 * i;
-    if (drums[i].y < 0) {
-      drums[i].y += DRUM_SIZE;
-    }
+  drums.y -= 80;
+  if (drums.y < 0) {
+    drums.y += DRUM_SIZE;
   }
 }
 
 // Load image for drums
-void LDrums::loadMedia() {
+void LDrums::loadMedia(int i) {
   gDrumsSurface = IMG_Load("../resources/drum.png");
   if (gDrumsSurface == NULL) {
     printf("Failed to load image. SDL_image Error: %s\n", SDL_GetError());
   }
+
+  viewpoints = {DRUM_STEP * i + DRUM_X, DRUM_Y, DRUM_WIDTH, DRUM_HEIGHT};
 
   // Create texture from surface
   gDrumsTexture = SDL_CreateTextureFromSurface(gRenderer, gDrumsSurface);
@@ -47,7 +42,5 @@ void LDrums::loadMedia() {
 
 // Render five drums
 void LDrums::render() {
-  for (int i = 0; i < DRUMS_COUNT; ++i) {
-    SDL_RenderCopy(gRenderer, gDrumsTexture, &drums[i], &viewpoints[i]);
-  }
+  SDL_RenderCopy(gRenderer, gDrumsTexture, &drums, &viewpoints);
 }

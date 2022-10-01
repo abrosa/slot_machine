@@ -12,15 +12,17 @@
 // Objects for application
 LButton gButton;
 LBackground gBackground;
-LDrums gDrums;
+LDrums gDrums[DRUMS_COUNT];
 LFPSText gFPSText;
 
 // Milliseconds since the SDL library initialized
 Uint64 start_time, curr_time;
 
-// Rotation time = 5000 ms = 5 seconds
+// The moment of starting rotation
 Uint64 start_rotation;
-Uint64 rotation_time = 5000;
+// Rotation time = 4000 - 5000 ms = 4 - 5 seconds
+Uint64 rotation_time[DRUMS_COUNT] = {4000, 4260, 4520, 4780, 5040};
+Uint64 full_stop = 5300;
 
 // Frame counter
 int countedFrames;
@@ -38,7 +40,9 @@ int main(int argc, char *args[]) {
   // Load resources
   gButton.loadMedia();
   gBackground.loadMedia();
-  gDrums.loadMedia();
+  for (int i = 0; i < DRUMS_COUNT; ++i) {
+    gDrums[i].loadMedia(i);
+  }
   gFPSText.loadMedia();
 
   // Start counting frames per second
@@ -69,11 +73,13 @@ int main(int argc, char *args[]) {
 
     if (button_pressed) {
       curr_time = SDL_GetTicks64();
-      if (rotation_time > curr_time - start_rotation) {
-        // Move drums
-        gDrums.update();
-      } else {
-        drums_stopped = true;
+      for (int i = 0; i < DRUMS_COUNT; ++i) {
+        if (rotation_time[i] > curr_time - start_rotation) {
+          gDrums[i].update();
+        }
+        if (full_stop < curr_time - start_rotation) {
+          drums_stopped = true;
+        }
       }
     }
 
@@ -91,8 +97,12 @@ int main(int argc, char *args[]) {
 
     // Render objects
     gBackground.render();
-    gDrums.render();
     gButton.render();
+
+    // Render drums
+    for (int i = 0; i < DRUMS_COUNT; ++i) {
+      gDrums[i].render();
+    }
 
     // Get ticks at the end of frame
     curr_time = SDL_GetTicks64();

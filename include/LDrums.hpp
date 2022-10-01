@@ -33,14 +33,14 @@ class LDrums {
   void render();
 
   // Load media
-  void loadMedia();
+  void loadMedia(int i);
 
  private:
   // Drums positions
-  SDL_Rect drums[DRUMS_COUNT];
+  SDL_Rect drums;
 
   // Drums windows
-  SDL_Rect viewpoints[DRUMS_COUNT];
+  SDL_Rect viewpoints;
 };
 
 #endif  // INCLUDE_LDRUMS_HPP_
