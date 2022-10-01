@@ -10,8 +10,6 @@
 #include "../include/LButton.hpp"
 #include "../include/LDrums.hpp"
 #include "../include/LFPSText.hpp"
-#include "../include/LTexture.hpp"
-#include "../include/LTimer.hpp"
 
 // Objects for application
 LButton gButton;

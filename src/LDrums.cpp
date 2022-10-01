@@ -15,7 +15,7 @@ LDrums::LDrums() {}
 
 void LDrums::update() {
   for (int i = 0; i < DRUMS_COUNT; ++i) {
-    drums[i].y -= 10;
+    drums[i].y -= 20 - 2 * i;
     if (drums[i].y < 0) {
       drums[i].y += 720;
     }

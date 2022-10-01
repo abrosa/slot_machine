@@ -7,8 +7,6 @@
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL.h"
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL_image.h"
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL_ttf.h"
-// #include "../include/LTexture.hpp"
-// #include "../include/LTimer.hpp"
 
 // Texture for rendering FPS text
 // LTexture gFPSTextTexture;
