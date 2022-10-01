@@ -8,12 +8,15 @@
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL_image.h"
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL_ttf.h"
 #include "../include/LApplication.hpp"
+#include "../include/LBackground.hpp"
 #include "../include/LButton.hpp"
 #include "../include/LDrums.hpp"
 #include "../include/LTexture.hpp"
 #include "../include/LTimer.hpp"
 
 LTexture gFPSTextTexture;
+
+LBackground gBackground;
 
 LButton gButtons;
 
@@ -42,9 +45,7 @@ int main(int argc, char *args[]) {
   // ???
   gButtons.loadMedia();
   // Load image for background
-  SDL_Surface *background = IMG_Load("../resources/bg.jpg");
-  SDL_Texture *groundTexture =
-      SDL_CreateTextureFromSurface(gRenderer, background);
+  gBackground.loadMedia();
   // Load image for drums
   gDrums.loadMedia();
 
@@ -80,7 +81,7 @@ int main(int argc, char *args[]) {
     // Clear screen
     SDL_RenderClear(gRenderer);
     // Render background
-    SDL_RenderCopy(gRenderer, groundTexture, NULL, NULL);
+    gBackground.render();
     // Render five drums
     gDrums.render();
     // Render FPS

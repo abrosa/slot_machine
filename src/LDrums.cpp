@@ -4,7 +4,6 @@
 
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL.h"
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL_image.h"
-#include "../include/LTexture.hpp"
 
 extern SDL_Renderer *gRenderer;
 
