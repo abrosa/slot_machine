@@ -4,15 +4,15 @@
 #define INCLUDE_LFPSTEXT_HPP_
 
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL.h"
+#include "../include/LApplication.hpp"
 
-// Text position
-const int TEXT_X = 40;
-const int TEXT_Y = 502;
-
-// Size of generated text exactly for this font
-// "FPS: 60.000"
+// Size of generated text exactly for this font "FPS: 60.000"
 const int TEXT_WIDTH = 319;
 const int TEXT_HEIGHT = 58;
+
+// Text position - lower left corner
+const int TEXT_X = MARGIN_X;
+const int TEXT_Y = SCREEN_HEIGHT - MARGIN_Y - TEXT_HEIGHT;
 
 // Class for FPS text
 class LFPSText {

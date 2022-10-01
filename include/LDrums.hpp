@@ -4,33 +4,35 @@
 #define INCLUDE_LDRUMS_HPP_
 
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL.h"
+#include "../include/LApplication.hpp"
 
 // Geometry constants
 
 // The number of drums
 const int DRUMS_COUNT = 5;
 
+// Size of window
+const int WINDOW_SIZE = 3;
+
 // Size of symbol
 const int SYMBOL_WIDTH = 128;
-const int SYMBOL_HEIGHT = 128;
+const int SYMBOL_HEIGHT = SYMBOL_WIDTH;
 
 // Number of different symbols
 const int SYMBOLS_COUNT = 9;
 
-// Size of window
-const int WINDOW_SIZE = 3;
+// Gap between two drums
+const int GAP = MARGIN_X / 2;
 
 // Drums constants
-const int DRUM_X = 40;
-const int DRUM_Y = 40;
-const int DRUM_WIDTH = SYMBOL_WIDTH;
-const int DRUM_HEIGHT = SYMBOL_HEIGHT * WINDOW_SIZE;
-
-// Gap between two drums
-const int GAP = 20;
+const int DRUM_X = MARGIN_X;
+const int DRUM_Y = MARGIN_Y;
+const int DRUM_WIDTH =
+    (SCREEN_WIDTH - 2 * MARGIN_X - (DRUMS_COUNT - 1) * GAP) / DRUMS_COUNT;
+const int DRUM_HEIGHT = DRUM_WIDTH * WINDOW_SIZE;
 
 // Next drums shifted to
-const int DRUM_STEP = GAP + SYMBOL_WIDTH;
+const int DRUM_STEP = GAP + DRUM_WIDTH;
 
 // Drum size to loop it
 const int DRUM_SIZE = SYMBOL_HEIGHT * SYMBOLS_COUNT;
