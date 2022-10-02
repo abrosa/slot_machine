@@ -50,13 +50,13 @@ const int DRUM_STEP = DRUM_WIDTH + GAP_X;
 // Drum height
 const int DRUM_HEIGHT = SCREEN_HEIGHT - 2 * MARGIN_Y - FOOTER - GAP_Y;
 
-// Layout class
+// LLayout class
 class LLayout {
  public:
-  // Layout constructor
+  // LLayout constructor
   LLayout();
 
-  // Layout destructor
+  // LLayout destructor
   ~LLayout();
 };
 

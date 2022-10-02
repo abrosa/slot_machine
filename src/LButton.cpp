@@ -42,23 +42,6 @@ bool LButton::handleEvent(SDL_Event *e) {
   return key_pressed;
 }
 
-// Flash button
-void LButton::update() {
-  --inhibitor;
-  if (inhibitor < 0) {
-    inhibitor += 64;
-  }
-  if (inhibitor < 8) {
-    // Move sprite up to the next
-    buttonRect.y -= BUTTON_HEIGHT;
-
-    // If it was the last one, move down to the end
-    if (buttonRect.y < 0) {
-      buttonRect.y += SPRITES_SIZE;
-    }
-  }
-}
-
 // Load image for button
 void LButton::loadMedia() {
   buttonSurface = IMG_Load("../resources/button.png");
@@ -72,5 +55,19 @@ void LButton::loadMedia() {
 
 // Render button
 void LButton::render() {
+  // Add flashing before rendering
+  --inhibitor;
+  if (inhibitor < 0) {
+    inhibitor += 64;
+  }
+  if (inhibitor < 8) {
+    // Move sprite up to the next
+    buttonRect.y -= BUTTON_HEIGHT;
+
+    // If it was the last one, move down to the end
+    if (buttonRect.y < 0) {
+      buttonRect.y += SPRITES_SIZE;
+    }
+  }
   SDL_RenderCopy(gRenderer, buttonTexture, &buttonRect, &buttonPosition);
 }

@@ -34,7 +34,7 @@ class LDrum {
   void render();
 
   // Load media
-  void loadMedia(int i, int symbol);
+  void loadMedia(int i);
 
  private:
   // Drum positions

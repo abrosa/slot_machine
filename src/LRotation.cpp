@@ -7,7 +7,7 @@
 #include "../include/LDrum.hpp"
 #include "../include/LMain.hpp"
 
-// Milliseconds since the SDL library initialized
+// Current rotation time in milliseconds
 Uint64 curr_rotation_time;
 
 // Random speed in range
@@ -28,8 +28,10 @@ bool LRotation::step(Uint64 time_of_start) {
   bool rotation_status = true;
 
   // Use c++ random number generation facilities
-  std::default_random_engine generator;
-  std::uniform_int_distribution<int> distribution2(0, ACCELERATION - 1);
+  std::uniform_real_distribution<double> distribution(1.0L, 2.0L);
+  std::random_device rd;
+  std::default_random_engine generator(rd());
+  std::uniform_int_distribution<int> accel(0, ACCELERATION - 1);
 
   // Get current ticks
   curr_rotation_time = SDL_GetTicks64() - time_of_start;
@@ -39,7 +41,7 @@ bool LRotation::step(Uint64 time_of_start) {
     // If rotation time has not ended
     if (ROTATION_TIME[i] > curr_rotation_time) {
       // Get random acceleration
-      speed = distribution2(generator);
+      speed = accel(generator);
 
       // Update current drum with this speed (pixel per frame)
       drums[i].update(MIN_SPEED + speed);

@@ -3,6 +3,7 @@
 #include "../include/LDrum.hpp"
 
 #include <cstdio>
+#include <random>
 
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL.h"
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL_image.h"
@@ -44,7 +45,13 @@ void LDrum::slow() {
 }
 
 // Load image for drum
-void LDrum::loadMedia(int i, int symbol) {
+void LDrum::loadMedia(int i) {
+  // Use c++ random number generation facilities
+  std::uniform_real_distribution<double> distribution(1.0L, 2.0L);
+  std::random_device rd;
+  std::default_random_engine generator(rd());
+  std::uniform_int_distribution<int> symbol(0, SYMBOLS_COUNT - 1);
+
   // Load resource
   drumSurface = IMG_Load("../resources/drum.png");
 
@@ -57,7 +64,7 @@ void LDrum::loadMedia(int i, int symbol) {
   drumPosition = {DRUM_X + DRUM_STEP * i, DRUM_Y, DRUM_WIDTH, DRUM_HEIGHT};
 
   // Different drums are set to random symbol
-  drumRect = {0, symbol * SYMBOL_HEIGHT, SYMBOL_WIDTH,
+  drumRect = {0, symbol(generator) * SYMBOL_HEIGHT, SYMBOL_WIDTH,
               SYMBOL_HEIGHT * WINDOW_SIZE};
 
   // Create texture from surface

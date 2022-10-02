@@ -3,48 +3,34 @@
 #include "../include/LMain.hpp"
 
 #include <cstdlib>
-#include <random>
 
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL.h"
 #include "../include/LApplication.hpp"
-#include "../include/LBackground.hpp"
 #include "../include/LButton.hpp"
-#include "../include/LDrum.hpp"
-#include "../include/LFPSText.hpp"
+#include "../include/LRender.hpp"
 #include "../include/LRotation.hpp"
+#include "../include/LTimer.hpp"
 
-// The window renderer
-extern SDL_Renderer *gRenderer;
-
-// Objects for application
+// Button for processing key press
 LButton button;
-LBackground background;
-LFPSText FPSText;
-LDrum drums[DRUMS_COUNT];
+
+// Drums rotation
 LRotation rotation;
 
-// Milliseconds since the SDL library initialized
-Uint64 start_time, countedTicks;
+// Rendering objects
+LRender render;
+
+// Timer object
+LTimer timer;
 
 // The moment of starting rotation
 Uint64 start_rotation_time;
-
-// Random start symbol in range 0..SYMBOLS_COUNT
-int symbol;
-
-// Frame counter
-int countedFrames;
 
 LMain::LMain() {}
 
 LMain::~LMain() {}
 
 int main(int argc, char *args[]) {
-  // Use c++ random number generation facilities
-  std::default_random_engine generator;
-  std::uniform_int_distribution<int> distribution1(0, SYMBOLS_COUNT - 1);
-  std::uniform_int_distribution<int> distribution2(0, ACCELERATION - 1);
-
   // Init application
   LApplication *Application = new LApplication();
 
@@ -52,17 +38,10 @@ int main(int argc, char *args[]) {
   SDL_Event event;
 
   // Load resources
-  button.loadMedia();
-  background.loadMedia();
-  for (int i = 0; i < DRUMS_COUNT; ++i) {
-    symbol = distribution1(generator);
-    drums[i].loadMedia(i, symbol);
-  }
-  FPSText.loadMedia();
+  LLayout layout;
 
   // Start counting frames per second
-  countedFrames = 0;
-  start_time = SDL_GetTicks64();
+  timer.start();
 
   // Main loop flags
   bool quit_requested = false;
@@ -96,31 +75,11 @@ int main(int argc, char *args[]) {
       rotation_status = true;
     }
 
-    // Flash button
-    button.update();
-
-    // Clear screen
-    SDL_RenderClear(gRenderer);
-
     // Render objects
-    background.render();
-    button.render();
+    render.render();
 
-    // Render drums
-    for (int i = 0; i < DRUMS_COUNT; ++i) {
-      drums[i].render();
-    }
-
-    // Get ticks at the end of frame
-    countedTicks = SDL_GetTicks64() - start_time;
-    FPSText.get_ticks(countedFrames, countedTicks);
-    FPSText.render();
-
-    // Update screen
-    SDL_RenderPresent(gRenderer);
-
-    // Count Frames
-    ++countedFrames;
+    // Frame rendered, tick timer
+    timer.tick();
   }
 
   // Free resources and close SDL
