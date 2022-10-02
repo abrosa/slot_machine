@@ -11,27 +11,27 @@
 extern SDL_Renderer *gRenderer;
 
 // Background surface
-SDL_Surface *gBackgroundSurface;
+SDL_Surface *backgroundSurface;
 
 // Background texture
-SDL_Texture *gBackgroundTexture;
+SDL_Texture *backgroundTexture;
 
 // Empty constructor
 LBackground::LBackground() {}
 
 // Load image for background
 void LBackground::loadMedia() {
-  gBackgroundSurface = IMG_Load("../resources/bg.jpg");
-  if (gBackgroundSurface == NULL) {
+  backgroundSurface = IMG_Load("../resources/bg.jpg");
+  if (backgroundSurface == NULL) {
     printf("Failed to load image. SDL_image Error: %s\n", SDL_GetError());
   }
 
   // Create texture from surface
-  gBackgroundTexture =
-      SDL_CreateTextureFromSurface(gRenderer, gBackgroundSurface);
+  backgroundTexture =
+      SDL_CreateTextureFromSurface(gRenderer, backgroundSurface);
 }
 
 // Render background
 void LBackground::render() {
-  SDL_RenderCopy(gRenderer, gBackgroundTexture, NULL, NULL);
+  SDL_RenderCopy(gRenderer, backgroundTexture, NULL, NULL);
 }

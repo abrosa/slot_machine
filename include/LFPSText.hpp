@@ -5,14 +5,7 @@
 
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL.h"
 #include "../include/LApplication.hpp"
-
-// Size of generated text exactly for this font "FPS: 60.000"
-const int TEXT_WIDTH = 319;
-const int TEXT_HEIGHT = 58;
-
-// Text position - lower left corner
-const int TEXT_X = MARGIN_X;
-const int TEXT_Y = SCREEN_HEIGHT - MARGIN_Y - TEXT_HEIGHT;
+#include "../include/LLayout.hpp"
 
 // Class for FPS text
 class LFPSText {
@@ -21,7 +14,7 @@ class LFPSText {
   LFPSText();
 
   // Render text
-  void get_text(int countedFrames, Uint64 ticks1, Uint64 ticks2);
+  void get_ticks(int countedFrames, Uint64 countedTicks);
 
   // Render text
   void render();

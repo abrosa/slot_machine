@@ -11,13 +11,13 @@
 extern SDL_Renderer *gRenderer;
 
 // Used monospaced font
-TTF_Font *gFont;
+TTF_Font *Font;
 
 // FPS text surface
-SDL_Surface *gFPSSurface;
+SDL_Surface *FPSSurface;
 
 // Texture
-SDL_Texture *gFPSTexture;
+SDL_Texture *FPSTexture;
 
 // Buffer for converting double to string
 char buffer[12];
@@ -30,8 +30,8 @@ LFPSText::LFPSText() {
 }
 
 // Calculate FPS and convert to text
-void LFPSText::get_text(int countedFrames, Uint64 ticks1, Uint64 ticks2) {
-  double avgFPS = 1000.0L * countedFrames / (ticks2 - ticks1);
+void LFPSText::get_ticks(int countedFrames, Uint64 countedTicks) {
+  double avgFPS = 1000.0L * countedFrames / countedTicks;
 
   // Convert double to string
   snprintf(buffer, sizeof(buffer), "FPS: %6.3f", avgFPS);
@@ -39,8 +39,8 @@ void LFPSText::get_text(int countedFrames, Uint64 ticks1, Uint64 ticks2) {
 
 // Open the font
 void LFPSText::loadMedia() {
-  gFont = TTF_OpenFont("../resources/FiraMono-Bold.ttf", 48);
-  if (gFont == NULL) {
+  Font = TTF_OpenFont("../resources/FiraMono-Bold.ttf", 48);
+  if (Font == NULL) {
     printf("Failed to load font. SDL_ttf Error: %s\n", TTF_GetError());
   }
 }
@@ -48,11 +48,11 @@ void LFPSText::loadMedia() {
 // Render FPS text
 void LFPSText::render() {
   // Create surface from text buffer
-  gFPSSurface = TTF_RenderText_Solid(gFont, buffer, FPSTextColor);
+  FPSSurface = TTF_RenderText_Solid(Font, buffer, FPSTextColor);
 
   // Create texture from surface
-  gFPSTexture = SDL_CreateTextureFromSurface(gRenderer, gFPSSurface);
+  FPSTexture = SDL_CreateTextureFromSurface(gRenderer, FPSSurface);
 
   // Render FPS text
-  SDL_RenderCopy(gRenderer, gFPSTexture, NULL, &FPSRectangle);
+  SDL_RenderCopy(gRenderer, FPSTexture, NULL, &FPSRectangle);
 }

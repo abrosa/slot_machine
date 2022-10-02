@@ -5,18 +5,10 @@
 
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL.h"
 #include "../include/LApplication.hpp"
+#include "../include/LLayout.hpp"
 
-// Button size
-const int BUTTON_WIDTH = 200;
-const int BUTTON_HEIGHT = 80;
-
-// Button position - lower right corner
-const int BUTTON_X = SCREEN_WIDTH - MARGIN_X - BUTTON_WIDTH;
-const int BUTTON_Y = SCREEN_HEIGHT - MARGIN_Y - BUTTON_HEIGHT;
-
-// Number of button sprites
+// Button sprites constants
 const int SPRITES_COUNT = 4;
-
 // Full size of resource image
 const int SPRITES_SIZE = SPRITES_COUNT * BUTTON_HEIGHT;
 
@@ -40,10 +32,10 @@ class LButton {
 
  private:
   // Button position
-  SDL_Rect mPosition;
+  SDL_Rect buttonPosition;
 
-  // Button window
-  SDL_Rect gSpriteClips;
+  // Button itself
+  SDL_Rect buttonRect;
 };
 
 #endif  // INCLUDE_LBUTTON_HPP_

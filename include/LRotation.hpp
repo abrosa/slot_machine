@@ -1,9 +1,10 @@
 /* Copyright 2022 <Alexander Abrosov> */
 
-#ifndef INCLUDE_SLOT_MACHINE_HPP_
-#define INCLUDE_SLOT_MACHINE_HPP_
+#ifndef INCLUDE_LROTATION_HPP_
+#define INCLUDE_LROTATION_HPP_
 
-#include "../include/LDrums.hpp"
+#include "../../x86_64-w64-mingw32/include/SDL2/SDL.h"
+#include "../include/LLayout.hpp"
 
 // Rolling speed constants
 // Minimal speed pixels per frame
@@ -22,6 +23,17 @@ const int FULL_STOP = 5600;
 // Milliseconds for full stop every drum ~ 4-5 seconds
 const int ROTATION_TIME[DRUMS_COUNT] = {4000, 4260, 4520, 4780, 5040};
 
-int main(int argc, char *argv[]);
+// Rotation class
+class LRotation {
+ public:
+  // Rotation constructor
+  LRotation();
 
-#endif  // INCLUDE_SLOT_MACHINE_HPP_
+  // Rotation destructor
+  ~LRotation();
+
+  // Rotation step
+  bool step(Uint64 time_of_start);
+};
+
+#endif  // INCLUDE_LROTATION_HPP_

@@ -9,7 +9,7 @@ class LBackground {
   // Initializes internal variables
   LBackground();
 
-  // Render drums
+  // Render background
   void render();
 
   // Load media

@@ -1,6 +1,6 @@
 /* Copyright 2022 <Alexander Abrosov> */
 
-#include "../include/slot_machine.hpp"
+#include "../include/LMain.hpp"
 
 #include <cstdlib>
 #include <random>
@@ -9,24 +9,25 @@
 #include "../include/LApplication.hpp"
 #include "../include/LBackground.hpp"
 #include "../include/LButton.hpp"
-#include "../include/LDrums.hpp"
+#include "../include/LDrum.hpp"
 #include "../include/LFPSText.hpp"
+#include "../include/LRotation.hpp"
+
+// The window renderer
+extern SDL_Renderer *gRenderer;
 
 // Objects for application
-LButton gButton;
-LBackground gBackground;
-LDrums gDrums[DRUMS_COUNT];
-LFPSText gFPSText;
+LButton button;
+LBackground background;
+LFPSText FPSText;
+LDrum drums[DRUMS_COUNT];
+LRotation rotation;
 
 // Milliseconds since the SDL library initialized
-Uint64 start_time, curr_time;
+Uint64 start_time, countedTicks;
 
 // The moment of starting rotation
-Uint64 start_rotation;
-
-// Random speed in range
-// MIN_SPEED + 0..ACCELERATION pixels per frame
-int speed;
+Uint64 start_rotation_time;
 
 // Random start symbol in range 0..SYMBOLS_COUNT
 int symbol;
@@ -34,8 +35,9 @@ int symbol;
 // Frame counter
 int countedFrames;
 
-// The window renderer
-extern SDL_Renderer *gRenderer;
+LMain::LMain() {}
+
+LMain::~LMain() {}
 
 int main(int argc, char *args[]) {
   // Use c++ random number generation facilities
@@ -50,13 +52,13 @@ int main(int argc, char *args[]) {
   SDL_Event event;
 
   // Load resources
-  gButton.loadMedia();
-  gBackground.loadMedia();
+  button.loadMedia();
+  background.loadMedia();
   for (int i = 0; i < DRUMS_COUNT; ++i) {
     symbol = distribution1(generator);
-    gDrums[i].loadMedia(i, symbol);
+    drums[i].loadMedia(i, symbol);
   }
-  gFPSText.loadMedia();
+  FPSText.loadMedia();
 
   // Start counting frames per second
   countedFrames = 0;
@@ -65,7 +67,7 @@ int main(int argc, char *args[]) {
   // Main loop flags
   bool quit_requested = false;
   bool button_pressed = false;
-  bool drums_stopped = false;
+  bool rotation_status = true;
 
   // While application is running
   while (!quit_requested) {
@@ -77,53 +79,42 @@ int main(int argc, char *args[]) {
       }
       if (!button_pressed) {
         // Handle button events
-        button_pressed = gButton.handleEvent(&event);
+        button_pressed = button.handleEvent(&event);
         if (button_pressed) {
-          start_rotation = SDL_GetTicks64();
+          start_rotation_time = SDL_GetTicks64();
         }
       }
     }
 
     if (button_pressed) {
-      curr_time = SDL_GetTicks64();
-      for (int i = 0; i < DRUMS_COUNT; ++i) {
-        if (ROTATION_TIME[i] > curr_time - start_rotation) {
-          speed = distribution2(generator);
-          gDrums[i].update(MIN_SPEED + speed);
-        } else {
-          gDrums[i].slow();
-        }
-        if (FULL_STOP < curr_time - start_rotation) {
-          drums_stopped = true;
-        }
-      }
+      rotation_status = rotation.step(start_rotation_time);
     }
 
     // reset button for next roll
-    if (drums_stopped) {
+    if (!rotation_status) {
       button_pressed = false;
-      drums_stopped = false;
+      rotation_status = true;
     }
 
     // Flash button
-    gButton.update();
+    button.update();
 
     // Clear screen
     SDL_RenderClear(gRenderer);
 
     // Render objects
-    gBackground.render();
-    gButton.render();
+    background.render();
+    button.render();
 
     // Render drums
     for (int i = 0; i < DRUMS_COUNT; ++i) {
-      gDrums[i].render();
+      drums[i].render();
     }
 
     // Get ticks at the end of frame
-    curr_time = SDL_GetTicks64();
-    gFPSText.get_text(countedFrames, start_time, curr_time);
-    gFPSText.render();
+    countedTicks = SDL_GetTicks64() - start_time;
+    FPSText.get_ticks(countedFrames, countedTicks);
+    FPSText.render();
 
     // Update screen
     SDL_RenderPresent(gRenderer);
