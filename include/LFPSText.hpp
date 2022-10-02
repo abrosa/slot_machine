@@ -3,8 +3,8 @@
 #ifndef INCLUDE_LFPSTEXT_HPP_
 #define INCLUDE_LFPSTEXT_HPP_
 
-#include "../../x86_64-w64-mingw32/include/SDL2/SDL.h"
-#include "../../x86_64-w64-mingw32/include/SDL2/SDL_ttf.h"
+#include "C:/x86_64-w64-mingw32/include/SDL2/SDL.h"
+#include "C:/x86_64-w64-mingw32/include/SDL2/SDL_ttf.h"
 #include "../include/LLayout.hpp"
 
 // Class for FPS text

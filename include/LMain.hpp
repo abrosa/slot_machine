@@ -3,7 +3,7 @@
 #ifndef INCLUDE_LMAIN_HPP_
 #define INCLUDE_LMAIN_HPP_
 
-#include "../../x86_64-w64-mingw32/include/SDL2/SDL.h"
+#include "C:/x86_64-w64-mingw32/include/SDL2/SDL.h"
 
 #include "../include/LRender.hpp"
 #include "../include/LRotation.hpp"

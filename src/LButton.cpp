@@ -4,8 +4,8 @@
 
 #include <cstdio>
 
-#include "../../x86_64-w64-mingw32/include/SDL2/SDL.h"
-#include "../../x86_64-w64-mingw32/include/SDL2/SDL_image.h"
+#include "C:/x86_64-w64-mingw32/include/SDL2/SDL.h"
+#include "C:/x86_64-w64-mingw32/include/SDL2/SDL_image.h"
 #include "../include/LLayout.hpp"
 
 // The window renderer
