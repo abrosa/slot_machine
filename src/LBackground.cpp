@@ -6,11 +6,14 @@
 
 #include "C:/x86_64-w64-mingw32/include/SDL2/SDL_image.h"
 
-// The window renderer
+// Global SDL_Renderer
 extern SDL_Renderer *gRenderer;
 
+// Pointer to background
+extern LBackground *background;
+
 // Load image for background
-void LBackground::loadMedia() {
+LBackground::LBackground() {
   backgroundSurface = IMG_Load("../resources/bg.jpg");
   if (backgroundSurface == NULL) {
     printf("Failed to load image. SDL_image Error: %s\n", SDL_GetError());

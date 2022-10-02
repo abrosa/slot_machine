@@ -4,6 +4,7 @@
 #define INCLUDE_LDRUM_HPP_
 
 #include "C:/x86_64-w64-mingw32/include/SDL2/SDL.h"
+// #include "../include/LApplication.hpp"
 #include "../include/LLayout.hpp"
 
 // Drum symbols constants
@@ -20,14 +21,14 @@ const int SYMBOLS_SIZE = SYMBOL_HEIGHT * SYMBOLS_COUNT;
 // The drum
 class LDrum {
  public:
+  // Init LDrum
+  LDrum(int i);
+
   // Update views
   void update();
 
   // Slowly move to the next exact position and stop
   void slow();
-
-  // Load media
-  void loadMedia(int i);
 
   // Render drum
   void render();

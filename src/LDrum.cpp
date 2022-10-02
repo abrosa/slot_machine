@@ -9,8 +9,11 @@
 #include "C:/x86_64-w64-mingw32/include/SDL2/SDL_image.h"
 #include "../include/LRotation.hpp"
 
-// The window renderer
+// Global SDL_Renderer
 extern SDL_Renderer *gRenderer;
+
+// Pointer to drums
+extern LDrum *drums[DRUMS_COUNT];
 
 // Use c++ random number generation facilities
 std::uniform_real_distribution<double> distribution(1.0L, 2.0L);
@@ -44,8 +47,8 @@ void LDrum::slow() {
   }
 }
 
-// Load image for drum
-void LDrum::loadMedia(int i) {
+// Init LDrum
+LDrum::LDrum(int i) {
   // Load resource
   drumSurface = IMG_Load("../resources/drum.png");
 

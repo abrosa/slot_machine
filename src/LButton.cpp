@@ -8,11 +8,14 @@
 #include "C:/x86_64-w64-mingw32/include/SDL2/SDL_image.h"
 #include "../include/LLayout.hpp"
 
-// The window renderer
+// Global SDL_Renderer
 extern SDL_Renderer *gRenderer;
 
-// Button constructor
-void LButton::loadMedia() {
+// Pointer to button
+extern LButton *button;
+
+// LButton constructor
+LButton::LButton() {
   // Set button position
   buttonPosition = {BUTTON_X, BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT};
   buttonRect = {0, 0, BUTTON_WIDTH, BUTTON_HEIGHT};

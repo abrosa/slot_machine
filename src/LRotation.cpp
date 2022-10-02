@@ -1,10 +1,9 @@
 /* Copyright 2022 <Alexander Abrosov> */
 
 #include "../include/LRotation.hpp"
-#include "../include/LDrum.hpp"
 
-// Drums to rotate
-extern LDrum drums[DRUMS_COUNT];
+// Pointer to drums
+extern LDrum *drums[DRUMS_COUNT];
 
 bool LRotation::step(Uint64 time_of_start) {
   // Flag for rotation status
@@ -20,10 +19,10 @@ bool LRotation::step(Uint64 time_of_start) {
     // If rotation time has not ended
     if (ROTATION_TIME[i] > curr_rotation_time) {
       // Update current drum
-      drums[i].update();
+      drums[i]->update();
     } else {
       // Or start to slow down this drum
-      drums[i].slow();
+      drums[i]->slow();
     }
 
     // If it's time to full stop

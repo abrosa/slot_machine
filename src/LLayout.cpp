@@ -2,35 +2,48 @@
 
 #include "../include/LLayout.hpp"
 
-#include "../include/LBackground.hpp"
-#include "../include/LButton.hpp"
-#include "../include/LDrum.hpp"
-#include "../include/LFPSText.hpp"
+// Pointer to background
+LBackground *background;
 
-// Background image
-LBackground background;
+// Pointer to drums
+LDrum *drums[DRUMS_COUNT];
 
-// Array of drums
-LDrum drums[DRUMS_COUNT];
+// Pointer to button
+LButton *button;
 
-//FPS text
-LFPSText FPSText;
+// Pointer to FPSText
+LFPSText *FPSText;
 
-LButton button;
-
-// Init layout
+// LLayout constructor
 LLayout::LLayout() {
-  // Load background image
-  background.loadMedia();
+  // Init background
+  background = new LBackground();
 
-  // Load drum image
+  // Init drums
   for (int i = 0; i < DRUMS_COUNT; ++i) {
-    drums[i].loadMedia(i);
+    drums[i] = new LDrum(i);
   }
 
-  // Load FPS text and render them
-  FPSText.loadMedia();
+  // Init FPSText
+  FPSText = new LFPSText();
 
   // Init button
-  button.loadMedia();
+  button = new LButton();
+}
+
+// LLayout destructor
+LLayout::~LLayout() {
+  // Free background
+  delete background;
+
+  // Free drums
+  for (int i = 0; i < DRUMS_COUNT; ++i) {
+    delete drums[i];
+  }
+
+  // Free FPSText
+  delete FPSText;
+
+  // Init button
+  delete button;
 }

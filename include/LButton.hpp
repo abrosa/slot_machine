@@ -4,6 +4,7 @@
 #define INCLUDE_LBUTTON_HPP_
 
 #include "C:/x86_64-w64-mingw32/include/SDL2/SDL.h"
+// #include "../include/LApplication.hpp"
 
 // Button size
 const int BUTTON_WIDTH = 200;
@@ -21,8 +22,8 @@ const int THRESHOLD = 8;
 // LButton class
 class LButton {
  public:
-  // Init button
-  void loadMedia();
+  // LButton constructor
+  LButton();
 
   // Handles mouse event
   bool handleEvent(SDL_Event *e);

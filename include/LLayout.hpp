@@ -3,7 +3,10 @@
 #ifndef INCLUDE_LLAYOUT_HPP_
 #define INCLUDE_LLAYOUT_HPP_
 
+#include "../include/LBackground.hpp"
 #include "../include/LButton.hpp"
+#include "../include/LDrum.hpp"
+#include "../include/LFPSText.hpp"
 
 // Geometry constants:
 
@@ -54,6 +57,9 @@ class LLayout {
  public:
   // LLayout constructor
   LLayout();
+
+  // LLayout destructor
+  ~LLayout();
 };
 
 #endif  // INCLUDE_LLAYOUT_HPP_

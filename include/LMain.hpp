@@ -4,24 +4,27 @@
 #define INCLUDE_LMAIN_HPP_
 
 #include "C:/x86_64-w64-mingw32/include/SDL2/SDL.h"
-
+#include "../include/LApplication.hpp"
+#include "../include/LLayout.hpp"
 #include "../include/LRender.hpp"
 #include "../include/LRotation.hpp"
 #include "../include/LTimer.hpp"
 
-// Drums rotation
-LRotation rotation;
+// LMain class
+class LMain {
+ public:
+  // LMain constructor
+  LMain();
 
-// Rendering objects
-LRender render;
+  // LMain destructor
+  ~LMain();
 
-// The moment of starting rotation
-Uint64 start_rotation_time;
+ private:
+  // Pointer to application
+  LApplication *application;
 
-// Event handler
-SDL_Event event;
-
-// Timer object
-LTimer timer;
+  // Pointer to layout
+  LLayout *layout;
+};
 
 #endif  // INCLUDE_LMAIN_HPP_

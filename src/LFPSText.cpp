@@ -6,11 +6,14 @@
 
 #include "C:/x86_64-w64-mingw32/include/SDL2/SDL.h"
 
-// The window renderer
+// Global SDL_Renderer
 extern SDL_Renderer *gRenderer;
 
+// Pointer to FPSText
+extern LFPSText *FPSText;
+
 // Init FPS text
-void LFPSText::loadMedia() {
+LFPSText::LFPSText() {
   // Set text rectangle
   FPSRectangle = {TEXT_X, TEXT_Y, TEXT_WIDTH, TEXT_HEIGHT};
   // Set black color

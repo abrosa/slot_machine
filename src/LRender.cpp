@@ -2,23 +2,23 @@
 
 #include "../include/LRender.hpp"
 
-#include "../include/LBackground.hpp"
-#include "../include/LButton.hpp"
-#include "../include/LDrum.hpp"
-#include "../include/LFPSText.hpp"
-#include "../include/LTimer.hpp"
-
-// Extern renderer
+// Global SDL_Renderer
 extern SDL_Renderer *gRenderer;
 
-// Extern objects for rendering
-extern LBackground background;
-extern LDrum drums[DRUMS_COUNT];
-extern LFPSText FPSText;
-extern LButton button;
+// Pointer to background
+extern LBackground *background;
 
-// Timer to get FPS
-extern LTimer timer;
+// Pointer to button
+extern LButton *button;
+
+// Pointer to drums
+extern LDrum *drums[DRUMS_COUNT];
+
+// Pointer to timer
+extern LTimer *timer;
+
+// Pointer to FPSText
+extern LFPSText *FPSText;
 
 // Render objects
 void LRender::render() {
@@ -26,19 +26,19 @@ void LRender::render() {
   SDL_RenderClear(gRenderer);
 
   // Render background
-  background.render();
+  background->render();
 
   // Render drums
   for (int i = 0; i < DRUMS_COUNT; ++i) {
-    drums[i].render();
+    drums[i]->render();
   }
 
   // Get and render FPS text
-  buffer = timer.tick();
-  FPSText.render(buffer);
+  buffer = timer->tick();
+  FPSText->render(buffer);
 
   // Render button
-  button.render();
+  button->render();
 
   // Update screen
   SDL_RenderPresent(gRenderer);

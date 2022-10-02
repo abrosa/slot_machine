@@ -8,8 +8,8 @@
 #include "C:/x86_64-w64-mingw32/include/SDL2/SDL_ttf.h"
 #include "../include/LLayout.hpp"
 
-// The window renderer
-SDL_Renderer *gRenderer = NULL;
+// Global SDL_Renderer
+SDL_Renderer *gRenderer;
 
 LApplication::LApplication() {
   // Initialize SDL

@@ -5,13 +5,14 @@
 
 #include "C:/x86_64-w64-mingw32/include/SDL2/SDL.h"
 #include "C:/x86_64-w64-mingw32/include/SDL2/SDL_ttf.h"
+// #include "../include/LApplication.hpp"
 #include "../include/LLayout.hpp"
 
 // Class for FPS text
 class LFPSText {
  public:
-  // Init FPS text
-  void loadMedia();
+  // Init LFPSText
+  LFPSText();
 
   // Render text
   void render(char *buffer);

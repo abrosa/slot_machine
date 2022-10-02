@@ -4,12 +4,13 @@
 #define INCLUDE_LBACKGROUND_HPP_
 
 #include "C:/x86_64-w64-mingw32/include/SDL2/SDL.h"
+// #include "../include/LApplication.hpp"
 
 // LBackground class
 class LBackground {
  public:
-  // Load resources
-  void loadMedia();
+  // Init LBackground
+  LBackground();
 
   // Render background
   void render();
