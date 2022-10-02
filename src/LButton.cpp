@@ -10,15 +10,6 @@
 // The window renderer
 extern SDL_Renderer *gRenderer;
 
-// Button surface
-SDL_Surface *buttonSurface;
-
-// Button texture
-SDL_Texture *buttonTexture;
-
-// Counter to flash button not so fast
-int inhibitor;
-
 // Set button position
 LButton::LButton() {
   buttonPosition = {BUTTON_X, BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT};
@@ -58,9 +49,9 @@ void LButton::render() {
   // Add flashing before rendering
   --inhibitor;
   if (inhibitor < 0) {
-    inhibitor += 64;
+    inhibitor += PERIOD;
   }
-  if (inhibitor < 8) {
+  if (inhibitor < THRESHOLD) {
     // Move sprite up to the next
     buttonRect.y -= BUTTON_HEIGHT;
 

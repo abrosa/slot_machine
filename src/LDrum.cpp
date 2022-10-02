@@ -12,16 +12,20 @@
 // The window renderer
 extern SDL_Renderer *gRenderer;
 
-// Drum surface
-SDL_Surface *drumSurface;
-
-// Drum texture
-SDL_Texture *drumTexture;
+// Use c++ random number generation facilities
+std::uniform_real_distribution<double> distribution(1.0L, 2.0L);
+std::random_device rd;
+std::default_random_engine generator(rd());
 
 // Rotate drum
-void LDrum::update(int speed) {
+void LDrum::update() {
+  // Use c++ random number generation facilities
+  std::uniform_int_distribution<int> accel(0, ACCELERATION - 1);
+
+  // Random speed in range
+  // MIN_SPEED + 0..ACCELERATION pixels per frame
   // Roll drum up (-y)
-  drumRect.y -= speed;
+  drumRect.y -= MIN_SPEED + accel(generator);
 
   // If drum ended, move back to bottom
   if (drumRect.y < 0) {
@@ -44,9 +48,6 @@ void LDrum::slow() {
 // Load image for drum
 void LDrum::loadMedia(int i) {
   // Use c++ random number generation facilities
-  std::uniform_real_distribution<double> distribution(1.0L, 2.0L);
-  std::random_device rd;
-  std::default_random_engine generator(rd());
   std::uniform_int_distribution<int> symbol(0, SYMBOLS_COUNT - 1);
 
   // Load resource

@@ -2,13 +2,9 @@
 
 #include "../include/LTimer.hpp"
 
-#include "../../x86_64-w64-mingw32/include/SDL2/SDL.h"
-#include "../include/LFPSText.hpp"
+#include <cstdio>
 
-// FPSText object
-LFPSText text;
-
-void LTimer::start() {
+LTimer::LTimer() {
   // Start counting frames
   countedFrames = 0;
 
@@ -16,10 +12,23 @@ void LTimer::start() {
   start_time = SDL_GetTicks64();
 }
 
-void LTimer::tick() {
+char *LTimer::tick() {
   // Count Frames
   ++countedFrames;
 
   // Get ticks at the end of frame
-  text.get_ticks(countedFrames, SDL_GetTicks64() - start_time);
+  countedTicks = SDL_GetTicks64() - start_time;
+
+  // To prevent division by zero
+  if (countedTicks != 0) {
+    // Calculate FPS
+    avgFPS = 1000.0L * countedFrames / countedTicks;
+
+    // Convert double to string
+    snprintf(buffer, sizeof(buffer), "FPS: %6.3f", avgFPS);
+  } else {
+    // Default string
+    snprintf(buffer, sizeof(buffer), "FPS: 60.000");
+  }
+  return buffer;
 }

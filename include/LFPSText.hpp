@@ -4,7 +4,8 @@
 #define INCLUDE_LFPSTEXT_HPP_
 
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL.h"
-#include "../include/LApplication.hpp"
+#include "../../x86_64-w64-mingw32/include/SDL2/SDL_ttf.h"
+//#include "../include/LApplication.hpp"
 #include "../include/LLayout.hpp"
 
 // Class for FPS text
@@ -13,14 +14,11 @@ class LFPSText {
   // Initializes internal variables
   LFPSText();
 
-  // count FPS
-  void get_ticks(int countedFrames, Uint64 countedTicks);
-
   // Load media
   void loadMedia();
 
   // Render text
-  void render();
+  void render(char *buffer);
 
  private:
   // Rectangle for FPS text
@@ -28,6 +26,15 @@ class LFPSText {
 
   // Color for FPS text
   SDL_Color FPSTextColor;
+
+  // FPS text surface
+  SDL_Surface *FPSSurface;
+
+  // Texture
+  SDL_Texture *FPSTexture;
+
+  // Used monospaced font
+  TTF_Font *font;
 };
 
 #endif  // INCLUDE_LFPSTEXT_HPP_

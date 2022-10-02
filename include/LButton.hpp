@@ -12,6 +12,10 @@ const int SPRITES_COUNT = 4;
 // Full size of resource image
 const int SPRITES_SIZE = SPRITES_COUNT * BUTTON_HEIGHT;
 
+// Blinking constants
+const int PERIOD = 64;
+const int THRESHOLD = 8;
+
 // The mouse button
 class LButton {
  public:
@@ -33,6 +37,15 @@ class LButton {
 
   // Button itself
   SDL_Rect buttonRect;
+
+  // Button surface
+  SDL_Surface *buttonSurface;
+
+  // Button texture
+  SDL_Texture *buttonTexture;
+
+  // Counter to flash button not so fast
+  int inhibitor;
 };
 
 #endif  // INCLUDE_LBUTTON_HPP_

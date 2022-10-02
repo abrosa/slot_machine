@@ -3,14 +3,14 @@
 #include "../include/LMain.hpp"
 
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL.h"
-#include "../include/LApplication.hpp"
+
 #include "../include/LButton.hpp"
 #include "../include/LRender.hpp"
 #include "../include/LRotation.hpp"
 #include "../include/LTimer.hpp"
 
 // Button for processing key press
-LButton button;
+extern LButton button;
 
 // Drums rotation
 LRotation rotation;
@@ -18,25 +18,25 @@ LRotation rotation;
 // Rendering objects
 LRender render;
 
-// Timer object
-LTimer timer;
-
 // The moment of starting rotation
 Uint64 start_rotation_time;
+
+// Event handler
+SDL_Event event;
+
+// Timer object
+LTimer timer;
 
 // Main entry point
 int main(int argc, char *args[]) {
   // Init application
-  LApplication *Application = new LApplication();
-
-  // Event handler
-  SDL_Event event;
+  LApplication *application = new LApplication();
 
   // Load resources
   LLayout layout;
 
-  // Start counting frames per second
-  timer.start();
+  // Create timer
+  LTimer *timer = new LTimer();
 
   // Main loop flags
   bool quit_requested = false;
@@ -72,13 +72,10 @@ int main(int argc, char *args[]) {
 
     // Render objects
     render.render();
-
-    // Frame rendered, tick timer
-    timer.tick();
   }
 
   // Free resources and close SDL
-  delete Application;
+  delete application;
 
   // Exit with good return code
   return 0;

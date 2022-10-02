@@ -6,15 +6,19 @@
 #include "../include/LButton.hpp"
 #include "../include/LDrum.hpp"
 #include "../include/LFPSText.hpp"
+#include "../include/LTimer.hpp"
 
-// The window renderer
+// Extern renderer
 extern SDL_Renderer *gRenderer;
 
-// Objects for application
-extern LButton button;
+// Extern objects for rendering
 extern LBackground background;
-extern LFPSText FPSText;
 extern LDrum drums[DRUMS_COUNT];
+extern LFPSText FPSText;
+extern LButton button;
+
+// Timer to get FPS
+extern LTimer timer;
 
 // Render objects
 void LRender::render() {
@@ -29,8 +33,9 @@ void LRender::render() {
     drums[i].render();
   }
 
-  // Render FPS text
-  FPSText.render();
+  // Get and render FPS text
+  buffer = timer.tick();
+  FPSText.render(buffer);
 
   // Render button
   button.render();

@@ -1,18 +1,7 @@
 /* Copyright 2022 <Alexander Abrosov> */
 
 #include "../include/LRotation.hpp"
-
-#include <random>
-
 #include "../include/LDrum.hpp"
-#include "../include/LMain.hpp"
-
-// Current rotation time in milliseconds
-Uint64 curr_rotation_time;
-
-// Random speed in range
-// MIN_SPEED + 0..ACCELERATION pixels per frame
-int speed;
 
 // Drums to rotate
 extern LDrum drums[DRUMS_COUNT];
@@ -23,12 +12,6 @@ bool LRotation::step(Uint64 time_of_start) {
   // false - it stopped
   bool rotation_status = true;
 
-  // Use c++ random number generation facilities
-  std::uniform_real_distribution<double> distribution(1.0L, 2.0L);
-  std::random_device rd;
-  std::default_random_engine generator(rd());
-  std::uniform_int_distribution<int> accel(0, ACCELERATION - 1);
-
   // Get current ticks
   curr_rotation_time = SDL_GetTicks64() - time_of_start;
 
@@ -36,11 +19,8 @@ bool LRotation::step(Uint64 time_of_start) {
   for (int i = 0; i < DRUMS_COUNT; ++i) {
     // If rotation time has not ended
     if (ROTATION_TIME[i] > curr_rotation_time) {
-      // Get random acceleration
-      speed = accel(generator);
-
-      // Update current drum with this speed (pixel per frame)
-      drums[i].update(MIN_SPEED + speed);
+      // Update current drum
+      drums[i].update();
     } else {
       // Or start to slow down this drum
       drums[i].slow();

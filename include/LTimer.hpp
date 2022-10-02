@@ -9,10 +9,10 @@
 class LTimer {
  public:
   // LTimer start
-  void start();
+  LTimer();
 
   // LTimer tick
-  void tick();
+  char *tick();
 
  private:
   // Milliseconds since the SDL library initialized
@@ -20,6 +20,15 @@ class LTimer {
 
   // Frame counter
   int countedFrames;
+
+  // Ticks counter
+  Uint64 countedTicks;
+
+  // Double FPS counter
+  double avgFPS;
+
+  // Buffer for number converted to string
+  char buffer[12];
 };
 
 #endif  // INCLUDE_LTIMER_HPP_

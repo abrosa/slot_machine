@@ -4,17 +4,10 @@
 
 #include <cstdio>
 
-#include "../../x86_64-w64-mingw32/include/SDL2/SDL.h"
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL_image.h"
 
 // The window renderer
 extern SDL_Renderer *gRenderer;
-
-// Background surface
-SDL_Surface *backgroundSurface;
-
-// Background texture
-SDL_Texture *backgroundTexture;
 
 // Load image for background
 void LBackground::loadMedia() {

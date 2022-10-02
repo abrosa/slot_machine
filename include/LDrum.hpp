@@ -22,7 +22,7 @@ const int SYMBOLS_SIZE = SYMBOL_HEIGHT * SYMBOLS_COUNT;
 class LDrum {
  public:
   // Update views
-  void update(int speed);
+  void update();
 
   // Slowly move to the next exact position and stop
   void slow();
@@ -39,6 +39,12 @@ class LDrum {
 
   // Drum itself
   SDL_Rect drumRect;
+
+  // Drum surface
+  SDL_Surface *drumSurface;
+
+  // Drum texture
+  SDL_Texture *drumTexture;
 };
 
 #endif  // INCLUDE_LDRUM_HPP_

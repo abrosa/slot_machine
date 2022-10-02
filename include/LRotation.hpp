@@ -28,6 +28,13 @@ class LRotation {
  public:
   // Rotation step
   bool step(Uint64 time_of_start);
+
+ private:
+  // Current rotation time in milliseconds
+  Uint64 curr_rotation_time;
+
+  // Speed of rotation pixel per frame
+  int speed;
 };
 
 #endif  // INCLUDE_LROTATION_HPP_

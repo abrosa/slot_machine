@@ -8,6 +8,10 @@ class LRender {
  public:
   // Render all objects
   void render();
+
+ private:
+  // Buffer for printing FPS
+  char *buffer;
 };
 
 #endif  // INCLUDE_LRENDER_HPP_
