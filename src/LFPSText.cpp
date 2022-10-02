@@ -24,7 +24,7 @@ void LFPSText::loadMedia() {
   }
 }
 
-// Render FPS text
+// Render FPS text created dynamically
 void LFPSText::render(char *buffer) {
   // Create surface from text buffer
   FPSSurface = TTF_RenderText_Solid(font, buffer, FPSTextColor);

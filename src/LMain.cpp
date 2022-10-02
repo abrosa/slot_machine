@@ -2,46 +2,28 @@
 
 #include "../include/LMain.hpp"
 
-#include "../../x86_64-w64-mingw32/include/SDL2/SDL.h"
-
+#include "../include/LApplication.hpp"
 #include "../include/LButton.hpp"
-#include "../include/LRender.hpp"
-#include "../include/LRotation.hpp"
-#include "../include/LTimer.hpp"
+#include "../include/LLayout.hpp"
 
 // Button for processing key press
 extern LButton button;
-
-// Drums rotation
-LRotation rotation;
-
-// Rendering objects
-LRender render;
-
-// The moment of starting rotation
-Uint64 start_rotation_time;
-
-// Event handler
-SDL_Event event;
-
-// Timer object
-LTimer timer;
 
 // Main entry point
 int main(int argc, char *args[]) {
   // Init application
   LApplication *application = new LApplication();
 
-  // Load resources
-  LLayout layout;
+  // Init layout
+  LLayout *layout = new LLayout();
 
   // Create timer
   LTimer *timer = new LTimer();
 
   // Main loop flags
   bool quit_requested = false;
-  bool button_pressed = false;
-  bool rotation_status = true;
+  bool start_pressed = false;
+  bool drums_rolling = false;
 
   // While application is running
   while (!quit_requested) {
@@ -51,23 +33,25 @@ int main(int argc, char *args[]) {
       if (event.type == SDL_QUIT) {
         quit_requested = true;
       }
-      if (!button_pressed) {
-        // Handle button events
-        button_pressed = button.handleEvent(&event);
-        if (button_pressed) {
+      if (!start_pressed) {
+        // Handle button pressed
+        start_pressed = button.handleEvent(&event);
+        if (start_pressed) {
           start_rotation_time = SDL_GetTicks64();
+          start_pressed = false;
+          drums_rolling = true;
         }
       }
     }
 
-    if (button_pressed) {
-      rotation_status = rotation.step(start_rotation_time);
+    // Start rotation if button was pressed
+    if (drums_rolling) {
+      drums_rolling = rotation.step(start_rotation_time);
     }
 
-    // reset button for next roll
-    if (!rotation_status) {
-      button_pressed = false;
-      rotation_status = true;
+    // Reset button for next roll
+    if (!drums_rolling) {
+      start_pressed = false;
     }
 
     // Render objects
@@ -75,6 +59,8 @@ int main(int argc, char *args[]) {
   }
 
   // Free resources and close SDL
+  delete timer;
+  delete layout;
   delete application;
 
   // Exit with good return code

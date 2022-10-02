@@ -16,12 +16,11 @@ extern SDL_Renderer *gRenderer;
 std::uniform_real_distribution<double> distribution(1.0L, 2.0L);
 std::random_device rd;
 std::default_random_engine generator(rd());
+std::uniform_int_distribution<int> accel(0, ACCELERATION - 1);
+std::uniform_int_distribution<int> symbol(0, SYMBOLS_COUNT - 1);
 
 // Rotate drum
 void LDrum::update() {
-  // Use c++ random number generation facilities
-  std::uniform_int_distribution<int> accel(0, ACCELERATION - 1);
-
   // Random speed in range
   // MIN_SPEED + 0..ACCELERATION pixels per frame
   // Roll drum up (-y)
@@ -47,9 +46,6 @@ void LDrum::slow() {
 
 // Load image for drum
 void LDrum::loadMedia(int i) {
-  // Use c++ random number generation facilities
-  std::uniform_int_distribution<int> symbol(0, SYMBOLS_COUNT - 1);
-
   // Load resource
   drumSurface = IMG_Load("../resources/drum.png");
 
@@ -61,7 +57,7 @@ void LDrum::loadMedia(int i) {
   // drumPositions are placed on Window in series
   drumPosition = {DRUM_X + DRUM_STEP * i, DRUM_Y, DRUM_WIDTH, DRUM_HEIGHT};
 
-  // Different drums are set to random symbol
+  // Different drums are set to random symbols
   drumRect = {0, symbol(generator) * SYMBOL_HEIGHT, SYMBOL_WIDTH,
               SYMBOL_HEIGHT * WINDOW_SIZE};
 

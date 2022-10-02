@@ -5,7 +5,6 @@
 
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL.h"
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL_ttf.h"
-//#include "../include/LApplication.hpp"
 #include "../include/LLayout.hpp"
 
 // Class for FPS text

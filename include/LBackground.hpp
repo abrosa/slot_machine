@@ -5,14 +5,15 @@
 
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL.h"
 
-// The mouse button
+// LBackground class
 class LBackground {
  public:
-  // Load media
+  // Load resources
   void loadMedia();
 
   // Render background
   void render();
+
  private:
   // Background surface
   SDL_Surface *backgroundSurface;

@@ -4,7 +4,6 @@
 #define INCLUDE_LBUTTON_HPP_
 
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL.h"
-#include "../include/LApplication.hpp"
 #include "../include/LLayout.hpp"
 
 // Button sprites constants
@@ -13,10 +12,10 @@ const int SPRITES_COUNT = 4;
 const int SPRITES_SIZE = SPRITES_COUNT * BUTTON_HEIGHT;
 
 // Blinking constants
-const int PERIOD = 64;
+const int PERIOD = 32;
 const int THRESHOLD = 8;
 
-// The mouse button
+// LButton class
 class LButton {
  public:
   // Initializes internal variables
