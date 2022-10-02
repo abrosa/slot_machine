@@ -3,6 +3,8 @@
 #ifndef INCLUDE_LLAYOUT_HPP_
 #define INCLUDE_LLAYOUT_HPP_
 
+#include "../include/LButton.hpp"
+
 // Geometry constants:
 
 // Screen dimension constants
@@ -15,9 +17,6 @@ const int MARGIN_Y = 40;
 const int GAP_X = MARGIN_X / 2;
 const int GAP_Y = MARGIN_Y / 2;
 
-// Button size
-const int BUTTON_WIDTH = 200;
-const int BUTTON_HEIGHT = 80;
 // Button position - lower right corner
 const int BUTTON_X = SCREEN_WIDTH - MARGIN_X - BUTTON_WIDTH;
 const int BUTTON_Y = SCREEN_HEIGHT - MARGIN_Y - BUTTON_HEIGHT;
@@ -55,9 +54,6 @@ class LLayout {
  public:
   // LLayout constructor
   LLayout();
-
-  // LLayout destructor
-  // ~LLayout();
 };
 
 #endif  // INCLUDE_LLAYOUT_HPP_

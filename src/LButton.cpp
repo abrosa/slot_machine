@@ -6,14 +6,25 @@
 
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL.h"
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL_image.h"
+#include "../include/LLayout.hpp"
 
 // The window renderer
 extern SDL_Renderer *gRenderer;
 
-// Set button position
-LButton::LButton() {
+// Button constructor
+void LButton::loadMedia() {
+  // Set button position
   buttonPosition = {BUTTON_X, BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT};
   buttonRect = {0, 0, BUTTON_WIDTH, BUTTON_HEIGHT};
+
+  // Load image for button
+  buttonSurface = IMG_Load("../resources/button.png");
+  if (buttonSurface == NULL) {
+    printf("Failed to load image. SDL_image Error: %s\n", SDL_GetError());
+  }
+
+  // Create texture from surface
+  buttonTexture = SDL_CreateTextureFromSurface(gRenderer, buttonSurface);
 }
 
 // Processing mouse key press
@@ -31,17 +42,6 @@ bool LButton::handleEvent(SDL_Event *e) {
     }
   }
   return key_pressed;
-}
-
-// Load image for button
-void LButton::loadMedia() {
-  buttonSurface = IMG_Load("../resources/button.png");
-  if (buttonSurface == NULL) {
-    printf("Failed to load image. SDL_image Error: %s\n", SDL_GetError());
-  }
-
-  // Create texture from surface
-  buttonTexture = SDL_CreateTextureFromSurface(gRenderer, buttonSurface);
 }
 
 // Render button

@@ -9,15 +9,12 @@
 // The window renderer
 extern SDL_Renderer *gRenderer;
 
-// Set text rectangle
-LFPSText::LFPSText() {
+// Init FPS text
+void LFPSText::loadMedia() {
+  // Set text rectangle
   FPSRectangle = {TEXT_X, TEXT_Y, TEXT_WIDTH, TEXT_HEIGHT};
   // Set black color
   FPSTextColor = {0, 0, 0, 255};
-}
-
-// Open the font
-void LFPSText::loadMedia() {
   font = TTF_OpenFont("../resources/FiraMono-Bold.ttf", 48);
   if (font == NULL) {
     printf("Failed to load font. SDL_ttf Error: %s\n", TTF_GetError());

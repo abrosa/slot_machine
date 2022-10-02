@@ -4,7 +4,10 @@
 #define INCLUDE_LBUTTON_HPP_
 
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL.h"
-#include "../include/LLayout.hpp"
+
+// Button size
+const int BUTTON_WIDTH = 200;
+const int BUTTON_HEIGHT = 80;
 
 // Button sprites constants
 const int SPRITES_COUNT = 4;
@@ -18,14 +21,11 @@ const int THRESHOLD = 8;
 // LButton class
 class LButton {
  public:
-  // Initializes internal variables
-  LButton();
+  // Init button
+  void loadMedia();
 
   // Handles mouse event
   bool handleEvent(SDL_Event *e);
-
-  // Load media
-  void loadMedia();
 
   // Shows button sprite
   void render();

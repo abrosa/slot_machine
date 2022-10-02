@@ -10,10 +10,7 @@
 // Class for FPS text
 class LFPSText {
  public:
-  // Initializes internal variables
-  LFPSText();
-
-  // Load media
+  // Init FPS text
   void loadMedia();
 
   // Render text

@@ -16,10 +16,9 @@ LDrum drums[DRUMS_COUNT];
 //FPS text
 LFPSText FPSText;
 
-// "Start" button
 LButton button;
 
-// Load resources
+// Init layout
 LLayout::LLayout() {
   // Load background image
   background.loadMedia();
@@ -32,6 +31,6 @@ LLayout::LLayout() {
   // Load FPS text and render them
   FPSText.loadMedia();
 
-  // Load button image
+  // Init button
   button.loadMedia();
 }
