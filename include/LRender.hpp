@@ -6,12 +6,6 @@
 // LRender class
 class LRender {
  public:
-  // LRender constructor
-  LRender();
-
-  // LRender destructor
-  ~LRender();
-
   // Render all objects
   void render();
 };

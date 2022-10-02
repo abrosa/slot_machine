@@ -2,8 +2,6 @@
 
 #include "../include/LMain.hpp"
 
-#include <cstdlib>
-
 #include "../../x86_64-w64-mingw32/include/SDL2/SDL.h"
 #include "../include/LApplication.hpp"
 #include "../include/LButton.hpp"
@@ -26,10 +24,7 @@ LTimer timer;
 // The moment of starting rotation
 Uint64 start_rotation_time;
 
-LMain::LMain() {}
-
-LMain::~LMain() {}
-
+// Main entry point
 int main(int argc, char *args[]) {
   // Init application
   LApplication *Application = new LApplication();

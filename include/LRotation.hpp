@@ -26,12 +26,6 @@ const int ROTATION_TIME[DRUMS_COUNT] = {4000, 4260, 4520, 4780, 5040};
 // Rotation class
 class LRotation {
  public:
-  // Rotation constructor
-  LRotation();
-
-  // Rotation destructor
-  ~LRotation();
-
   // Rotation step
   bool step(Uint64 time_of_start);
 };

@@ -8,12 +8,6 @@
 // LTimer class
 class LTimer {
  public:
-  // LTimer constructor
-  LTimer();
-
-  // LTimer destructor
-  ~LTimer();
-
   // LTimer start
   void start();
 

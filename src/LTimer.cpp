@@ -8,10 +8,6 @@
 // FPSText object
 LFPSText text;
 
-LTimer::LTimer() {}
-
-LTimer::~LTimer() {}
-
 void LTimer::start() {
   // Start counting frames
   countedFrames = 0;

@@ -21,20 +21,17 @@ const int SYMBOLS_SIZE = SYMBOL_HEIGHT * SYMBOLS_COUNT;
 // The drum
 class LDrum {
  public:
-  // Initializes internal variables
-  LDrum();
-
   // Update views
   void update(int speed);
 
   // Slowly move to the next exact position and stop
   void slow();
 
-  // Render drum
-  void render();
-
   // Load media
   void loadMedia(int i);
+
+  // Render drum
+  void render();
 
  private:
   // Drum positions

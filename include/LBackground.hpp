@@ -6,14 +6,11 @@
 // The mouse button
 class LBackground {
  public:
-  // Initializes internal variables
-  LBackground();
+  // Load media
+  void loadMedia();
 
   // Render background
   void render();
-
-  // Load media
-  void loadMedia();
 };
 
 #endif  // INCLUDE_LBACKGROUND_HPP_

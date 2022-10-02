@@ -55,9 +55,6 @@ class LLayout {
  public:
   // LLayout constructor
   LLayout();
-
-  // LLayout destructor
-  ~LLayout();
 };
 
 #endif  // INCLUDE_LLAYOUT_HPP_

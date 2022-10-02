@@ -21,14 +21,11 @@ class LButton {
   // Handles mouse event
   bool handleEvent(SDL_Event *e);
 
-  // Flash button
-  void update();
+  // Load media
+  void loadMedia();
 
   // Shows button sprite
   void render();
-
-  // Load media
-  void loadMedia();
 
  private:
   // Button position

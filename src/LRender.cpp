@@ -16,11 +16,6 @@ extern LBackground background;
 extern LFPSText FPSText;
 extern LDrum drums[DRUMS_COUNT];
 
-// Load resources
-LRender::LRender() {}
-
-LRender::~LRender() {}
-
 // Render objects
 void LRender::render() {
   // Clear screen

@@ -3,8 +3,6 @@
 #ifndef INCLUDE_LAPPLICATION_HPP_
 #define INCLUDE_LAPPLICATION_HPP_
 
-#include "../include/LLayout.hpp"
-
 // Application class
 class LApplication {
  public:

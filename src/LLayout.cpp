@@ -22,5 +22,3 @@ LLayout::LLayout() {
   }
   FPSText.loadMedia();
 }
-
-LLayout::~LLayout() {}

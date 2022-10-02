@@ -16,9 +16,6 @@ SDL_Surface *backgroundSurface;
 // Background texture
 SDL_Texture *backgroundTexture;
 
-// Empty constructor
-LBackground::LBackground() {}
-
 // Load image for background
 void LBackground::loadMedia() {
   backgroundSurface = IMG_Load("../resources/bg.jpg");

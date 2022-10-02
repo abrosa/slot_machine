@@ -13,14 +13,14 @@ class LFPSText {
   // Initializes internal variables
   LFPSText();
 
-  // Render text
+  // count FPS
   void get_ticks(int countedFrames, Uint64 countedTicks);
-
-  // Render text
-  void render();
 
   // Load media
   void loadMedia();
+
+  // Render text
+  void render();
 
  private:
   // Rectangle for FPS text

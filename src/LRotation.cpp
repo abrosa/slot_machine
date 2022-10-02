@@ -17,10 +17,6 @@ int speed;
 // Drums to rotate
 extern LDrum drums[DRUMS_COUNT];
 
-LRotation::LRotation() {}
-
-LRotation::~LRotation() {}
-
 bool LRotation::step(Uint64 time_of_start) {
   // Flag for rotation status
   // true - it goes on

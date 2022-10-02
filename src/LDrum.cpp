@@ -18,9 +18,6 @@ SDL_Surface *drumSurface;
 // Drum texture
 SDL_Texture *drumTexture;
 
-// Drum constructor
-LDrum::LDrum() {}
-
 // Rotate drum
 void LDrum::update(int speed) {
   // Roll drum up (-y)
