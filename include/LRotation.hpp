@@ -3,9 +3,9 @@
 #ifndef INCLUDE_LROTATION_HPP_
 #define INCLUDE_LROTATION_HPP_
 
-#include "C:/x86_64-w64-mingw32/include/SDL2/SDL.h"
 #include "../include/LDrum.hpp"
 #include "../include/LLayout.hpp"
+#include "C:/msys64/mingw64/include/SDL2/SDL.h"
 
 // Rolling speed constants
 // Minimal speed pixels per frame

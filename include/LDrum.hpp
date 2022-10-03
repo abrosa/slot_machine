@@ -3,9 +3,8 @@
 #ifndef INCLUDE_LDRUM_HPP_
 #define INCLUDE_LDRUM_HPP_
 
-#include "C:/x86_64-w64-mingw32/include/SDL2/SDL.h"
-// #include "../include/LApplication.hpp"
 #include "../include/LLayout.hpp"
+#include "C:/msys64/mingw64/include/SDL2/SDL.h"
 
 // Drum symbols constants
 // Vertical window size
@@ -22,7 +21,7 @@ const int SYMBOLS_SIZE = SYMBOL_HEIGHT * SYMBOLS_COUNT;
 class LDrum {
  public:
   // Init LDrum
-  LDrum(int i);
+  explicit LDrum(int i);
 
   // Update views
   void update();

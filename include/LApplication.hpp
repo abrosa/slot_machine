@@ -3,7 +3,7 @@
 #ifndef INCLUDE_LAPPLICATION_HPP_
 #define INCLUDE_LAPPLICATION_HPP_
 
-#include "C:/x86_64-w64-mingw32/include/SDL2/SDL.h"
+#include "C:/msys64/mingw64/include/SDL2/SDL.h"
 
 // LApplication class
 class LApplication {

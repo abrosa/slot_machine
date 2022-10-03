@@ -4,7 +4,7 @@
 
 #include <cstdio>
 
-#include "C:/x86_64-w64-mingw32/include/SDL2/SDL_image.h"
+#include "C:/msys64/mingw64/include/SDL2/SDL_image.h"
 
 // Global SDL_Renderer
 extern SDL_Renderer *gRenderer;

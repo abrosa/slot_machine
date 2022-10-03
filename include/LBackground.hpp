@@ -3,8 +3,7 @@
 #ifndef INCLUDE_LBACKGROUND_HPP_
 #define INCLUDE_LBACKGROUND_HPP_
 
-#include "C:/x86_64-w64-mingw32/include/SDL2/SDL.h"
-// #include "../include/LApplication.hpp"
+#include "C:/msys64/mingw64/include/SDL2/SDL.h"
 
 // LBackground class
 class LBackground {

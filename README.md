@@ -30,3 +30,6 @@ simple slot machine
 11) LButton.cpp - кнопка
         Содержит несколько спрайтов, которые переключаются
         и создают эффект мигания
+
+Использованное окружение:
+windows11/C++/make/msys64/mingw64/gcc/SDL2,SDL2_image,SDL2_ttf

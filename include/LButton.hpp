@@ -3,8 +3,7 @@
 #ifndef INCLUDE_LBUTTON_HPP_
 #define INCLUDE_LBUTTON_HPP_
 
-#include "C:/x86_64-w64-mingw32/include/SDL2/SDL.h"
-// #include "../include/LApplication.hpp"
+#include "C:/msys64/mingw64/include/SDL2/SDL.h"
 
 // Button size
 const int BUTTON_WIDTH = 200;

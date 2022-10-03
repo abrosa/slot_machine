@@ -3,7 +3,6 @@
 #ifndef INCLUDE_LMAIN_HPP_
 #define INCLUDE_LMAIN_HPP_
 
-#include "C:/x86_64-w64-mingw32/include/SDL2/SDL.h"
 #include "../include/LApplication.hpp"
 #include "../include/LLayout.hpp"
 #include "../include/LRender.hpp"
